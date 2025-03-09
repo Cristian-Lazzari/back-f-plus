@@ -38,18 +38,18 @@
     <div class="top-c">
         <div class="prod">
             <div class="top-p">
-                <a class="title" href="{{ route('admin.products.index') }}"> <h2>Clienti</h2></a>
-                <a href="{{ route('admin.products.index') }}" class=" plus icon">
+                <a class="title" href=""> <h2>Clienti</h2></a>
+                <a href="" class=" plus icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
                     </svg>
                 </a>
-                <a href="{{ route('admin.products.create') }}" class="plus">
+                <a href="" class="plus">
                     <div class="line"></div>
                     <div class="line l2"></div>
                 </a>
             </div>
-            <div class="stat-p">
+            {{-- <div class="stat-p">
                 <div class="stat">
                     <h2>{{$product_[1]}}</h2>
                     <span>acquisiti</span>
@@ -66,7 +66,7 @@
                     <h2>{{$stat[2]}}</h2>
                     <span>ingredienti</span>
                 </div>
-            </div>
+            </div> --}}
           
         </div>      
         
@@ -75,7 +75,7 @@
                 <div class="result-bar">
                     
                     <div class="stat">
-                        <h2>€{{$traguard[1] / 100}}</h2>
+                        {{-- <h2>€{{$traguard[1] / 100}}</h2> --}}
                         <span>questo mese</span>
                     </div>
                     
@@ -85,13 +85,16 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
                             <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
                             </svg>
-                            {{$traguard[3]}}</h2>
+                            {{-- {{$traguard[3]}} --}}
+                        </h2>
                         <span>questo mese</span>
                     </div>
                     
                     
                     <div class="stat">
-                        <h2>€{{$traguard[2] / 100}}</h2>
+                        {{-- <h2>€{{$traguard[2] / 100}} --}}
+
+                        </h2>
                         <span>questo anno</span>
                     </div>
                     
@@ -101,7 +104,8 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
                             <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
                             </svg>
-                            {{$traguard[4]}}</h2>
+                            {{-- {{$traguard[4]}} --}}
+                        </h2>
                         <span>questo anno</span>
                     </div>
                     
@@ -110,8 +114,8 @@
 
                 <div class="delivery-c">
                     <div class="top-p">
-                        <a class="title" href="{{ route('admin.orders.index') }}"> <h3>Pacchetti attivi</h3></a>
-                        <a href="{{ route('admin.orders.index') }}" class=" plus icon">
+                        <a class="title" href=""> <h3>Pacchetti attivi</h3></a>
+                        <a href="" class=" plus icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-boxes" viewBox="0 0 16 16">
                                 <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z"/>
                             </svg>
@@ -124,21 +128,21 @@
                     <div class="stat-p">
                         <div class="grup">
                             <div class="stat">
-                                <h3>{{$order[2]}}</h3>
+                                <h3></h3>
                                 <span>Sponsor</span>
                             </div>
                             <div class="stat">
-                                <h3>{{$order[1]}}</h3>
+                                <h3></h3>
                                 <span>Essentials</span>
                             </div>
                         </div>
                         <div class="grup">
                             <div class="stat">
-                                <h3>{{$order[3]}}</h3>
+                                <h3></h3>
                                 <span>Work on</span>
                             </div>
                             <div class="stat">
-                                <h3>{{$order[4]}}</h3>
+                                <h3></h3>
                                 <span>Boost up</span>
                             </div>
                         </div>
@@ -162,19 +166,19 @@
             </div>
             <div class="stat-p">
                 <div class="stat">
-                    <h2>{{$post[1]}}</h2>
+                    <h2></h2>
                     <span>totali</span>
                 </div>
                 <div class="stat">
-                    <h2>{{$post[2]}}</h2>
+                    <h2></h2>
                     <span>pronti</span>
                 </div>
                 <div class="stat">
-                    <h2>{{$post[3]}}</h2>
+                    <h2></h2>
                     <span>postati</span>
                 </div>
                 <div class="stat">
-                    <h2>{{$post[4]}}</h2>
+                    <h2></h2>
                     <span>archiviati</span>
                 </div>
             </div>   
@@ -268,7 +272,7 @@
             </div>
             
         </div> --}}
-        <form class="setting" action="{{ route('admin.settings.updateAll')}}" method="POST" enctype="multipart/form-data">
+      
             <h2>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1z"/>

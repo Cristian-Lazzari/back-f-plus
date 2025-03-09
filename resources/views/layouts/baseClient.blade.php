@@ -100,7 +100,7 @@
     <span class="loader"></span>
 
     <header>
-        @include('includes.nav')
+        @include('includes.navClient')
     </header>
 
     <div class="main-container-page">

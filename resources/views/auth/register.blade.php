@@ -46,7 +46,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
+            <label for="password" class="form-label">Conferma Password</label>
             <input
                 type="password"
                 class="form-control"
@@ -57,11 +57,11 @@
             >
         </div>
 
-        <a href="{{ route('login') }}">
-            Already registered?
+        <a class="my_btn_3" href="{{ route('login') }}">
+            Ti sei già registrato?
         </a>
 
-        <button type="submit" class="my_btn">Register</button>
+        <button type="submit" class="my_btn_2 my-5">Registrati</button>
     </form>
 
 @endsection
