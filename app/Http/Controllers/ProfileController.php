@@ -16,9 +16,16 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
+        if( auth()->check() && auth()->user()->role === 'admin' ){
+           return view('profile.edit', [
             'user' => $request->user(),
         ]);
+        }else{
+           return view('client.profile.edit', [
+            'user' => $request->user(),
+        ]);
+        }
+        
     }
 
     /**
@@ -33,8 +40,11 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
-
-        return Redirect::route('admin.profile.edit')->with('status', 'profile-updated');
+        if( auth()->check() && auth()->user()->role === 'admin' ){
+            return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        }else{
+            return Redirect::route('client.profile.edit')->with('status', 'profile-updated');
+        }
     }
 
     /**

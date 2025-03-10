@@ -1,5 +1,5 @@
 
-@extends('layouts.base')
+@extends('layouts.baseClient')
 
 @section('contents')
     <x-slot name="header">

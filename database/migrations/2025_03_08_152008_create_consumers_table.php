@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('consumers', function (Blueprint $table) {
             $table->id(); 
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+
             $table->boolean('active')->default(false);             //dati servizio
             $table->tinyInteger('status')->default(false);                // 1 essentials, 2 w-on, 3 b-up, 4 prova gratuita 
             
-            $table->string('name_agency', 30)->nullable();         //dati Azienda
+            // $table->string('name_agency', 30)->nullable();      //dati Azienda
             $table->tinyInteger('type_agency')->nullable();           // 1 ditta ind., 2 azienda, 3 libero prof
             $table->string('pec', 60)->nullable();                 
             $table->string('address', 60)->nullable();                 
@@ -30,7 +32,6 @@ return new class extends Migration
             $table->string('cf', 20)->nullable();
             
             $table->string('phone', 15)->nullable();               //dati per contattarlo
-            $table->string('email')->unique();
             
             $table->text('menu')->nullable();
             $table->string('domain')->unique()->nullable();

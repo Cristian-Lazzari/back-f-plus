@@ -68,7 +68,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         
         Route::get('/dates/showDay',    [DateController::class, 'showDay'])->name('dates.showDay');
         Route::post('/dates/status',    [DateController::class, 'status'])->name('dates.status');
-        Route::post('/dates/generate', [DateController::class, 'generate'])->name('dates.generate');
+        Route::post('/dates/generate',  [DateController::class, 'generate'])->name('dates.generate');
         
         //resource
         Route::resource('/settings',      SettingController::class);
@@ -87,8 +87,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     ->group(function () {
         Route::get('/dashboard', [AdminPageController::class, 'client'])->name('dashboard');
        
-        Route::get('/ordini', [ClientController::class, 'iMieiOrdini'])->name('ordini'); // Esempio
-        Route::get('/profilo', [ClientController::class, 'profilo'])->name('profilo'); // Esempio
+
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
     });
 });
 require __DIR__ . '/auth.php';

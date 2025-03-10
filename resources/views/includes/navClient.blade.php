@@ -3,14 +3,6 @@
 
         <div class="d-flex">
             <a class="my_btn_5 mylinknavs" href="{{ route('client.dashboard') }}">Dashboard</a>
-            {{-- <div class="notifications_container h-100 ms-2">
-                <button class="my_btn_1 search" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                    <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-bell-fill" viewBox="0 0 16 16">
-                        <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901"/>
-                    </svg>
-                </button>
-                <div class="notifications_count">{{ count($notifications)}}</div>
-            </div> --}}
         </div>
 
         <button class="navbar-toggler myitem" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,8 +32,13 @@
                 <li class="nav-item dropdown">
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit">Logout</button>
+                        <button class="my_btn_2" type="submit">Logout</button>
                     </form>                    
+                </li>   
+                <li class="nav-item dropdown">
+                    <a class="nav-link mylinknav" href="{{ route('client.profile.edit') }}">
+                        {{auth()->user()->name}}
+                    </a>                 
                 </li>   
                 <li class="nav-item" >
                     <button id="theme-toggle" class="my_btn_1">
