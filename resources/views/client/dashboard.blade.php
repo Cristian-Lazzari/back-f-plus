@@ -42,7 +42,7 @@
 @endif
 @php
 
- dd($step);
+ dd($step['step']);
 @endphp
 @if($step['step'] === 1)
 
