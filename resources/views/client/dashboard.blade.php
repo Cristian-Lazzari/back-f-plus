@@ -30,7 +30,7 @@
     @endphp
 @php
  $step = $step;
- //dd($step);
+
 @endphp
 @if (session('success'))
     @php
@@ -40,7 +40,10 @@
         {{ $step['m'] }}
     </div>
 @endif
+@php
 
+ dd($step);
+@endphp
 @if($step['step'] === 1)
 
     <div id="modal1" class="mymodal">
