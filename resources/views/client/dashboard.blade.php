@@ -58,7 +58,7 @@
             <form action="">
                 <div class="split">
                     <div class="input_group">
-                        <label for="type_agency" class="form-label">P. iva</label>
+                        <label for="type_agency" class="">P. iva</label>
                         <div class="select">
                             <input
                                 type="checkbox"
@@ -85,7 +85,7 @@
                         @error('type_agency') <p class="error">{{ $message }}</p> @enderror
                     </div>
                     <div class="input_group">
-                        <label for="vat" class="form-label">P. iva</label>
+                        <label for="vat" class="">P. iva</label>
                         <input
                             type="text"
                             id="vat"
@@ -98,7 +98,7 @@
                     </div>
                 </div>
                 <div class="input_group long">
-                    <label for="address" class="form-label">Sede legale dell'Attività</label>
+                    <label for="address" class="">Sede legale dell'Attività</label>
                     <input
                         type="text"
                         id="address"
@@ -110,7 +110,7 @@
                     @error('address') <p class="error">{{ $message }}</p> @enderror
                 </div>
                 <div class="input_group long">
-                    <label for="pec" class="form-label">Pec</label>
+                    <label for="pec" class="">Pec</label>
                     <input
                         type="text"
                         id="pec"
@@ -123,7 +123,7 @@
                 </div>
                 <div class="split">
                     <div class="input_group">
-                        <label for="owner_name" class="form-label">Nome proprietario*</label>
+                        <label for="owner_name" class="">Nome proprietario*</label>
                         <input
                             type="text"
                             id="owner_name"
@@ -135,7 +135,7 @@
                         @error('owner_name') <p class="error">{{ $message }}</p> @enderror
                     </div>
                     <div class="input_group">
-                        <label for="owner_surname" class="form-label">Cognome proprietario*</label>
+                        <label for="owner_surname" class="">Cognome proprietario*</label>
                         <input
                             type="text"
                             id="owner_surname"
@@ -149,7 +149,7 @@
                 </div>
 
                 <div class="input_group long">
-                    <label for="cf" class="form-label">Codice fiscale proprietario*</label>
+                    <label for="cf" class="">Codice fiscale proprietario*</label>
                     <input
                         type="text"
                         id="cf"
@@ -187,7 +187,7 @@
             <form action="{{ route('consumer.upload') }}" method="POST" enctype="multipart/form-data">
                 <div class="split">
                     <div class="input_group">
-                        <label for="r_type" class="form-label">Tipo di locale</label>
+                        <label for="r_type" class="">Tipo di locale</label>
                         <div class="select">
                             @foreach ($type_rs as $item)
                             <p class="not_active">
@@ -205,27 +205,19 @@
                         @error('r_type') <p class="error">{{ $message }}</p> @enderror
                     </div>
                     <div class="input_group">
-                        <label for="services_type" class="form-label">Tipo di locale</label>
+                        <label for="services_type" class="">Servizi del locale</label>
                         <div class="select">
-                            @foreach ($services_type as $day)
-                            
-                            <div class="day-block">
-                                <label>{{ $day }}</label>
-                                <input type="hidden" name="hours[{{ $day }}][day]" value="{{ $day }}">
-                    
-                                <div class="split">
-                                    <label>Orario:</label>
-                                    <input type="text" name="hours[{{ $day }}][time]" placeholder="Es. 08:00 - 14:00 / 18:00 - 23:00">
-                                </div>
-                    
-                                <label class="close_time">
-                                    <input type="checkbox" name="hours[{{ $day }}][closed]" value="1">
-                                    Chiuso
-                                </label>
-                            </div>
+                            @foreach ($services_type as $key => $value)
+                            <p class="not_active">
+                                {{$key}}
+                                <input
+                                    type="checkbox"
+                                    id="services_type"
+                                    name="services_type"
+                                    value="{{$value}}"
+                                >
+                            </p> 
                             @endforeach
-
-
                         </div>
                         @error('services_type') <p class="error">{{ $message }}</p> @enderror
                     </div>
@@ -256,19 +248,26 @@
                     @error('domain') <p class="error">{{ $message }}</p> @enderror
                 </div>
                 <div class="input_group long">
-                    <label for="pec" class="form-label">Inserisci gli attuali orari di aperura</label>
-                    @foreach ($services_type as $key => $value)
-                    <p class="not_active">
-                        {{$key}}
-                        <input
-                            type="checkbox"
-                            id="services_type"
-                            name="services_type"
-                            value="{{$value}}"
-                        >
-                    </p> 
+                    <label for="day_service" class="">Inserisci gli attuali orari di aperura</label>
+                    @foreach ($week as $day)
+                    
+                    <div class="day-block">
+                        <label>{{ $day }}</label>
+                        <input type="hidden" name="day_service[{{ $day }}][day]" value="{{ $day }}">
+            
+                        <div class="split">
+                            <label>Orario:</label>
+                            <input type="text" name="day_service[{{ $day }}][time]" placeholder="Es. 08:00 - 14:00 / 18:00 - 23:00">
+                        </div>
+            
+                        <label>
+                            <input type="checkbox" value="1" onchange="toggleTimeInput(this)">
+                            Chiuso
+                        </label>
+                    </div>
                     @endforeach
                 </div>
+                @error('day_service') <p class="error">{{ $message }}</p> @enderror
                 <div class="menu">
                     <div class="container_file"> 
                         <div class="header_file"> 
@@ -310,6 +309,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function close_modal(modal){
         modal.classList.add('d-none');
     } 
+
     
     function toggleTimeInput(checkbox) {
         let input = checkbox.closest('.day-block').querySelector('input[name*="[time]"]');
@@ -326,73 +326,73 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 <style>
-    /* From Uiverse.io by Yaya12085 */ 
-.container_file {
-  height: 300px;
-  width: 300px;
-  border-radius: 10px;
-  box-shadow: 4px 4px 30px rgba(0, 0, 0, .2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  gap: 5px;
-  background-color: rgba(0, 110, 255, 0.041);
-}
+        /* From Uiverse.io by Yaya12085 */ 
+    .container_file {
+    height: 300px;
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 30px rgba(0, 0, 0, .2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    gap: 5px;
+    background-color: rgba(0, 110, 255, 0.041);
+    }
 
-.header_file {
-  flex: 1;
-  width: 100%;
-  border: 2px dashed royalblue;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
+    .header_file {
+    flex: 1;
+    width: 100%;
+    border: 2px dashed royalblue;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    }
 
-.header_file svg {
-  height: 100px;
-}
+    .header_file svg {
+    height: 100px;
+    }
 
-.header_file p {
-  text-align: center;
-  color: black;
-}
+    .header_file p {
+    text-align: center;
+    color: black;
+    }
 
-.footer_file {
-  background-color: rgba(0, 110, 255, 0.075);
-  width: 100%;
-  height: 40px;
-  padding: 8px;
-  border-radius: 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  color: black;
-  border: none;
-}
+    .footer_file {
+    background-color: rgba(0, 110, 255, 0.075);
+    width: 100%;
+    height: 40px;
+    padding: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: black;
+    border: none;
+    }
 
-.footer_file svg {
-  height: 130%;
-  fill: royalblue;
-  background-color: rgba(70, 66, 66, 0.103);
-  border-radius: 50%;
-  padding: 2px;
-  cursor: pointer;
-  box-shadow: 0 2px 30px rgba(0, 0, 0, 0.205);
-}
+    .footer_file svg {
+    height: 130%;
+    fill: royalblue;
+    background-color: rgba(70, 66, 66, 0.103);
+    border-radius: 50%;
+    padding: 2px;
+    cursor: pointer;
+    box-shadow: 0 2px 30px rgba(0, 0, 0, 0.205);
+    }
 
-.footer_file p {
-  flex: 1;
-  text-align: center;
-}
+    .footer_file p {
+    flex: 1;
+    text-align: center;
+    }
 
-#file {
-  display: none;
-}
+    #file {
+    display: none;
+    }
 </style>
 
 
