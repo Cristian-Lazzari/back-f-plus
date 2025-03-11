@@ -13,7 +13,7 @@ class DashboardController extends Controller
         $consumer = Consumer::where('user_id', Auth::user()->id)->get();        
         if(count($consumer) === 0){
             Auth::logout();
-            return view('register');
+            return view('auth.register');
         } else {
             $first = $consumer[0];
             if($first->vat == null){
