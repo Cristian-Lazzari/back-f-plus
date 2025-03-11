@@ -37,10 +37,7 @@
         {{ $step['m'] }}
     </div>
 @endif
-@php
-    dump($step)['step'];
-    dump($step['step'] == 1);
-@endphp
+
 @if($step['step'] == 1)
 
     <div id="modal1" class="mymodal">
@@ -60,27 +57,33 @@
                     <div class="input_group">
                         <label for="type_agency" class="">P. iva</label>
                         <div class="select">
-                            <input
-                                type="checkbox"
-                                id="type_agency"
-                                name="type_agency"
-                                required
-                                value="1"
-                            >
-                            <input
-                                type="checkbox"
-                                id="type_agency"
-                                name="type_agency"
-                                required
-                                value="2"
-                            >
-                            <input
-                                type="checkbox"
-                                id="type_agency"
-                                name="type_agency"
-                                required
-                                value="3"
-                            >
+                            <label for="">
+                                'Libero professionista'
+                                <input
+                                    type="radio"
+                                    id="type_agency"
+                                    name="type_agency"
+                                    value="1"
+                                >
+                            </label>
+                            <label for="">
+                                'Ditta individuale'
+                                <input
+                                    type="radio"
+                                    id="type_agency"
+                                    name="type_agency"
+                                    value="2"
+                                >
+                            </label>
+                            <label for="">
+                                'Azienda'
+                                <input
+                                    type="radio"
+                                    id="type_agency"
+                                    name="type_agency"
+                                    value="3"
+                                >
+                            </label>
                         </div>
                         @error('type_agency') <p class="error">{{ $message }}</p> @enderror
                     </div>
