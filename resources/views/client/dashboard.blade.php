@@ -299,19 +299,30 @@
 <script>
 
 document.addEventListener("DOMContentLoaded", function() {
-    const modal_1 = document.querySelector('#modal1')
-    const modal_2 = document.querySelector('#modal2')
-    const close_modal_1 = document.querySelector('#close_modal1')
-    const close_modal_2 = document.querySelector('#close_modal2')
+    const modal_1 = document.querySelector('#modal1');
+    const modal_2 = document.querySelector('#modal2');
+    const close_modal_1 = document.querySelector('#close_modal1');
+    const close_modal_2 = document.querySelector('#close_modal2');
 
-    // close_modal_1.addEventListener('click', close_modal(modal_1))
-    // close_modal_2.addEventListener('click', close_modal(modal_2))
-    function close_modal(modal){
-        modal.classList.add('d-none');
-    } 
+    if (close_modal_1) {
+        close_modal_1.addEventListener('click', function() {
+            close_modal(modal_1);
+        });
+    }
 
-    
-    function toggleTimeInput(checkbox) {
+    if (close_modal_2) {
+        close_modal_2.addEventListener('click', function() {
+            close_modal(modal_2);
+        });
+    }
+
+    function close_modal(modal) {
+        if (modal) {
+            modal.classList.add('d-none');
+        }
+    }
+
+    window.toggleTimeInput = function(checkbox) {
         let input = checkbox.closest('.day-block').querySelector('input[name*="[time]"]');
         if (checkbox.checked) {
             input.value = 'Chiuso';
@@ -321,7 +332,7 @@ document.addEventListener("DOMContentLoaded", function() {
             input.readOnly = false;
         }
     }
-})
+});
 </script>
 
 
