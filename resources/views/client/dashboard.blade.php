@@ -289,6 +289,10 @@
 
             </form>
         </div>
+        <div class="foot">
+            <div class="close" id="close_modal2">Continua piu tardi la tua configuarazione</div>
+            <div class="call">Prenota una Call con i nostri esperti</div>
+        </div>
     </div>
 @elseif($step['step'] === 4)
 @endif
