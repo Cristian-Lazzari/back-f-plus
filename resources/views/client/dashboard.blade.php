@@ -28,10 +28,7 @@
             "hamburgeria","pescheria","bistrot","tavola calda","wine bar","pasticceria",
             "gelateria","chiosco","taverna","buffet","self-service","pub", "cucina etnica"];
     @endphp
-@php
- $step = $step;
 
-@endphp
 @if (session('success'))
     @php
         $step = session('success')
@@ -40,7 +37,10 @@
         {{ $step['m'] }}
     </div>
 @endif
-
+@php
+    dd($step)['step'];
+    dd($step['step'] == 1);
+@endphp
 @if($step['step'] == 1)
 
     <div id="modal1" class="mymodal">
@@ -171,7 +171,7 @@
         </div>
     </div>
 
-@elseif($step['step'] == 2)
+@elseif($step['step'] === 2)
     <div id="modal2" class="mymodal">
         <div class="top">
             <h2>Dati Ristorante</h2>
@@ -290,7 +290,7 @@
             </form>
         </div>
     </div>
-@elseif($step['step'] == 3)
+@elseif($step['step'] === 4)
 @endif
     
 <script>
