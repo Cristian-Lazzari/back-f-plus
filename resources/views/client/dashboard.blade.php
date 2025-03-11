@@ -41,7 +41,7 @@
     </div>
 @endif
 
-@if($step['step'] === 2)
+@if($step['step'] === 1)
 
     <div id="modal1" class="mymodal">
         <div class="top">
@@ -171,7 +171,7 @@
         </div>
     </div>
 
-@elseif($step['step'] === 3)
+@elseif($step['step'] === 2)
     <div id="modal2" class="mymodal">
         <div class="top">
             <h2>Dati Ristorante</h2>
@@ -290,7 +290,7 @@
             </form>
         </div>
     </div>
-@elseif($step['step'] === 4)
+@elseif($step['step'] === 3)
 @endif
     
 <script>
