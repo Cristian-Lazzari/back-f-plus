@@ -38,8 +38,8 @@
     </div>
 @endif
 @php
-    dd($step)['step'];
-    dd($step['step'] == 1);
+    dump($step)['step'];
+    dump($step['step'] == 1);
 @endphp
 @if($step['step'] == 1)
 
