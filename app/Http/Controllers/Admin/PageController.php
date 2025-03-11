@@ -17,15 +17,11 @@ use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
-    public function client() {
-        $consumer = Consumer::where('id', Auth::user()->id)-get();
-        
-        
-        return view('client.dashboard');
-    }
+
     public function admin() {
         
         return view('admin.dashboard');

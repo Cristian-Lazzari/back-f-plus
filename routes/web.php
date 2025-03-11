@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\IngredientController;
+use App\Http\Controllers\Client\DashboardController;
 use App\Http\Controllers\Admin\ReservationController;
 use App\Http\Controllers\Webhooks\StripeWebhookController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
@@ -85,7 +86,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     ->prefix('client')
     ->name('client.')
     ->group(function () {
-        Route::get('/dashboard', [AdminPageController::class, 'client'])->name('dashboard');
+        Route::get('/dashboard',                [DashboardController::class, 'home'])->name('dashboard');
+        Route::post('/complete_registration',  [DashboardController::class, 'complete_registration'])->name('complete_registration');
        
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
