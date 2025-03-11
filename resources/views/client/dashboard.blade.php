@@ -304,8 +304,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const close_modal_1 = document.querySelector('#close_modal1')
     const close_modal_2 = document.querySelector('#close_modal2')
 
-    close_modal_1.addEventListener('click', close_modal(modal_1))
-    close_modal_2.addEventListener('click', close_modal(modal_2))
+    // close_modal_1.addEventListener('click', close_modal(modal_1))
+    // close_modal_2.addEventListener('click', close_modal(modal_2))
     function close_modal(modal){
         modal.classList.add('d-none');
     } 
