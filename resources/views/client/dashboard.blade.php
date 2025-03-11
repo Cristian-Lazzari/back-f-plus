@@ -28,7 +28,10 @@
             "hamburgeria","pescheria","bistrot","tavola calda","wine bar","pasticceria",
             "gelateria","chiosco","taverna","buffet","self-service","pub", "cucina etnica"];
     @endphp
-
+@php
+ $step = $step;
+ dd($step);
+@endphp
 @if (session('success'))
     @php
         $step = session('success')
