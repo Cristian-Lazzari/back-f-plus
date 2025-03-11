@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             
-            $table->string('name', 50);                            //dati personali
-            $table->string('surname', 50);
+            $table->string('name', 50)->nullable();                            //dati personali
+            $table->string('surname', 50)->nullable();
             $table->string('phone', 15)->nullable();  
             $table->rememberToken();
             $table->timestamps();

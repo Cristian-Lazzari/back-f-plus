@@ -1,6 +1,2 @@
 *.sqlite*
 UsersTableSeeder.php
-ProductsTableSeeder.php
-CategoriesTableSeeder.php
-PostsTableSeeder.php
-prod.php
