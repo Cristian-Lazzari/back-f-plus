@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {{-- Favicon --}}
     <link rel="shortcut icon" href="{{ asset('public/favicon.png') }}" type="image/x-icon">
-    <title>Dashboard +</title>
+    <title>Future +</title>
     @vite('resources/js/app.js')
 </head>
 <body>
