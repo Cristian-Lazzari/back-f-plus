@@ -18,9 +18,9 @@
             'lunedì', 'martedì', 'mercoldì', 'giovedì', 'venerdì', 'sabato', 'domenica'
         ];
         $services_type = [
-            'Asporto e/o domicilio' => 1;
-            'prenotazione tavoli' => 2;
-            'Asporto e/o domicilio e prenotazione tavoli' => 3;
+            'Asporto e/o domicilio' => 1,
+            'prenotazione tavoli' => 2,
+            'Asporto e/o domicilio e prenotazione tavoli' => 3,
         ];
         $type_rs = [
             "ristorante","trattoria","pizzeria","sushi","steakhouse",
