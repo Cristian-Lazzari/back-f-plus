@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     public function home() {
-        $consumer = Consumer::where('user_id', Auth::user()->id)->get();        
+        $consumer = Consumer::where('user_id', Auth::user()->id)->get();
+                
         if(count($consumer) === 0){
             Auth::logout();
-            return view('auth.register');
+            //return view('auth.register');
         } else {
             $first = $consumer[0];
             if($first->vat == null){
@@ -38,7 +39,9 @@ class DashboardController extends Controller
         $consumer = Consumer::where('user_id', Auth::user()->id)->get();
         $first = $consumer[0];
         $data = $request;
-        $step = $data->step;
+        $step = $data['step'];
+        // dump($step);
+        // dd($data);
         if($step == 1){
             $this->step_1($data, $first);
         } elseif($step == 2){
@@ -50,14 +53,15 @@ class DashboardController extends Controller
 
     protected function step_1($data, $consumer){
         $data->validate([
+            'type_agency' => ['required'],
+            'vat' => ['required', 'string', 'max:25'],
+            'address' => ['required', 'string', 'max:255'],
+            'pec' => ['required', 'string', 'email', 'max:205'],
             'owner_name' => ['required', 'string', 'max:255'],
             'owner_surname' => ['required', 'string', 'max:255'],
             'owner_cf' => ['required', 'string', 'max:20'],
-            'type_agency' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'vat' => ['required', 'string', 'max:25'],
-            'pec' => ['required', 'string', 'email', 'max:205'],
         ]);
+        
         $consumer->owner_name = $data->owner_name;
         $consumer->owner_surname = $data->owner_surname;
         $consumer->owner_cf = $data->owner_cf;

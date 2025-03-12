@@ -10,20 +10,7 @@
     @vite('resources/js/app.js')
     
     <style>
-        /* CSS per il loader */
-        /* .loader {
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, 50%);
-            border: 16px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 16px solid #3498db;
-            width: 120px;
-            height: 120px;
-            animation: spin 2s linear infinite;
-            z-index: 9999;
-        } */
+
         .loader {
             position: fixed;
             left: 50%;
@@ -64,12 +51,6 @@
         }
         }
 
-        /* @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        } */
-
-        /* Nascondi il contenuto della pagina fino a quando il loader è visibile */
         body.loading {
             overflow: hidden;
         }
@@ -78,21 +59,7 @@
             display: none;
         }
 
-        /* @keyframes scrollBody {
-            0% {
-                
-            }
-            10% {
-                transform: translateY(0); 
-            }
-            100% {
-                transform: translateY(-100vh); 
-            }
-        }
 
-        body {
-            animation: scrollBody 15s ease-in-out infinite; 
-        } */
     </style>
 </head>
 <body class="loading">

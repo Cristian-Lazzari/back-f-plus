@@ -23,14 +23,15 @@ return new class extends Migration
         //}   
             $table->string('activity_name')->nullable();           //dati Azienda
             $table->string('pec', 60)->nullable();               
+            $table->string('address', 60)->nullable();                 
+            $table->string('vat', 20)->nullable();
             $table->tinyInteger('type_agency')->nullable();           // 1 ditta ind., 2 azienda, 3 libero prof
             $table->string('owner_name', 50)->nullable();                            
             $table->string('owner_surname', 50)->nullable();
-            $table->string('address', 60)->nullable();                 
-            $table->string('vat', 20)->nullable();
             $table->string('owner_cf', 20)->nullable();
             $table->string('owner_bd', 20)->nullable();
             $table->string('owner_sex', 2)->nullable();
+            $table->string('owner_phone', 20)->nullable();
             $table->string('owner_cm', 3)->nullable();
         //}    
             

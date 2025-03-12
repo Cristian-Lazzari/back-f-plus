@@ -39,55 +39,38 @@
 @endif
 
 @if($step['step'] == 1)
+<div class="wrapper">
 
-    <div id="modal1" class="mymodal">
+    <div id="modal1" class="registration-modal">
         <div class="top">
             <h2>Dati azienda</h2>
             <div class="crumbles">
-                <div class="cicle active">1</div>
+                <div class="circle active">1</div>
                 <div class="line"></div>
-                <div class="cicle">2</div>
+                <div class="circle">2</div>
                 <div class="line"></div>
-                <div class="cicle">3</div>
+                <div class="circle">3</div>
             </div>
         </div>
         <div class="body">
-            <form action="">
+            <form action="{{ route('client.complete_registration') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="step" value="1">
                 <div class="split">
-                    <div class="input_group">
-                        <label for="type_agency" class="">P. iva</label>
+                    <div class="input_form">
+                        <label for="type_agency" class="">Tipo di Azienda</label>
                         <div class="select">
-                            <label for="">
-                                'Libero professionista'
-                                <input
-                                    type="radio"
-                                    id="type_agency"
-                                    name="type_agency"
-                                    value="1"
-                                >
-                            </label>
-                            <label for="">
-                                'Ditta individuale'
-                                <input
-                                    type="radio"
-                                    id="type_agency"
-                                    name="type_agency"
-                                    value="2"
-                                >
-                            </label>
-                            <label for="">
-                                'Azienda'
-                                <input
-                                    type="radio"
-                                    id="type_agency"
-                                    name="type_agency"
-                                    value="3"
-                                >
-                            </label>
+                            <input type="radio" class="btn-check" id="type_agency" name="type_agency" value="1" >
+                            <label class="my_btn-check" for="type_agency">Libero professionista</label>
+                            <input type="radio" class="btn-check" id="type_agency1" name="type_agency" value="2" >
+                            <label class="my_btn-check" for="type_agency1"> Ditta individuale</label>
+                            <input type="radio" class="btn-check" id="type_agency2" name="type_agency" value="3" >
+                            <label class="my_btn-check" for="type_agency2">Azienda</label>
+
                         </div>
                         @error('type_agency') <p class="error">{{ $message }}</p> @enderror
                     </div>
-                    <div class="input_group">
+                    <div class="input_form">
                         <label for="vat" class="">P. iva</label>
                         <input
                             type="text"
@@ -100,7 +83,7 @@
                         @error('vat') <p class="error">{{ $message }}</p> @enderror
                     </div>
                 </div>
-                <div class="input_group long">
+                <div class="input_form long">
                     <label for="address" class="">Sede legale dell'Attività</label>
                     <input
                         type="text"
@@ -112,8 +95,8 @@
                     >
                     @error('address') <p class="error">{{ $message }}</p> @enderror
                 </div>
-                <div class="input_group long">
-                    <label for="pec" class="">Pec</label>
+                <div class="input_form long">
+                    <label for="pec" class="">email</label>
                     <input
                         type="text"
                         id="pec"
@@ -125,7 +108,7 @@
                     @error('pec') <p class="error">{{ $message }}</p> @enderror
                 </div>
                 <div class="split">
-                    <div class="input_group">
+                    <div class="input_form">
                         <label for="owner_name" class="">Nome proprietario*</label>
                         <input
                             type="text"
@@ -133,11 +116,11 @@
                             name="owner_name"
                             required
                             autocomplete="owner_name"
-                            value="{{ old('owner_name')}}"
+                            value="{{ old('owner_name', Auth::user()->name )}}"
                         >
                         @error('owner_name') <p class="error">{{ $message }}</p> @enderror
                     </div>
-                    <div class="input_group">
+                    <div class="input_form">
                         <label for="owner_surname" class="">Cognome proprietario*</label>
                         <input
                             type="text"
@@ -145,13 +128,13 @@
                             name="owner_surname"
                             required
                             autocomplete="owner_surname"
-                            value="{{ old('owner_surname') }}"
+                            value="{{ old('owner_surname', Auth::user()->surname) }}"
                         >
                         @error('owner_surname') <p class="error">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
-                <div class="input_group long">
+                <div class="input_form long">
                     <label for="cf" class="">Codice fiscale proprietario*</label>
                     <input
                         type="text"
@@ -164,7 +147,7 @@
                     @error('cf') <p class="error">{{ $message }}</p> @enderror
                 </div>
 
-                <button type="submit" class="my_btn_2">Conferma</button>
+                <button type="submit" class="my_btn_1">Conferma</button>
 
             </form>
         </div>
@@ -174,22 +157,25 @@
         </div>
     </div>
 
+</div>
+
 @elseif($step['step'] === 2)
-    <div id="modal2" class="mymodal">
+    <div id="modal2" class="registration-modal">
         <div class="top">
             <h2>Dati Ristorante</h2>
             <div class="crumbles">
-                <div class="cicle">1</div>
+                <div class="circle">1</div>
                 <div class="line"></div>
-                <div class="cicle active">2</div>
+                <div class="circle active">2</div>
                 <div class="line"></div>
-                <div class="cicle">3</div>
+                <div class="circle">3</div>
             </div>
         </div>
         <div class="body">
-            <form action="{{ route('consumer.upload') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('client.complete_registration') }}" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="split">
-                    <div class="input_group">
+                    <div class="input_form">
                         <label for="r_type" class="">Tipo di locale</label>
                         <div class="select">
                             @foreach ($type_rs as $item)
@@ -207,7 +193,7 @@
                         </div>
                         @error('r_type') <p class="error">{{ $message }}</p> @enderror
                     </div>
-                    <div class="input_group">
+                    <div class="input_form">
                         <label for="services_type" class="">Servizi del locale</label>
                         <div class="select">
                             @foreach ($services_type as $key => $value)
@@ -225,7 +211,7 @@
                         @error('services_type') <p class="error">{{ $message }}</p> @enderror
                     </div>
                 </div>
-                <div class="input_group long">
+                <div class="input_form long">
                     <h3>Hai gia un altro sito web per questo locale?</h3>
                     <div class="toggle-button-cover">
                         <div id="button-3" class="button r">
@@ -250,7 +236,7 @@
 
                     @error('domain') <p class="error">{{ $message }}</p> @enderror
                 </div>
-                <div class="input_group long">
+                <div class="input_form long">
                     <label for="day_service" class="">Inserisci gli attuali orari di aperura</label>
                     @foreach ($week as $day)
                     

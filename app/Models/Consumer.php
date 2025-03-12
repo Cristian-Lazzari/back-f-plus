@@ -9,7 +9,29 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Consumer extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'user_id', 'active', 'status', 'type_agency', 'pec', 'address', 'vat', 'name', 'surname', 'birth_date', 'cf', 'phone', 'menu', 'domain', 'r_property', 'opening_times', 'services_times'];
+    protected $fillable = [
+        'user_id',
+        'active',
+        'status',
+        'discount',
+        'activity_name',
+        'pec',
+        'address',
+        'vat',
+        'type_agency',
+        'owner_name',
+        'owner_surname',
+        'owner_cf',
+        'owner_bd',
+        'owner_cm',
+        'owner_sex',
+        'owner_phone',
+        'menu',
+        'services_type',
+        'domain',
+        'r_property',
+        'r_style',
+    ];
 
     public function user()
     {
