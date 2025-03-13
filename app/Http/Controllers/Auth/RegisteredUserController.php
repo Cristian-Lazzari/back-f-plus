@@ -39,6 +39,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => ['required','string'],
+            'role_agency' => ['required'],
         ]);
        
         $user = User::create([
@@ -47,6 +48,7 @@ class RegisteredUserController extends Controller
             'phone' => $request->phone,
             'name' => $request->name,
             'surname' => $request->surname,
+            'role_agency' => $request->role_agency,
         ]);
         $consumer = Consumer::create([
             'user_id' => $user->id,

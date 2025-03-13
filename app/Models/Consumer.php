@@ -31,6 +31,7 @@ class Consumer extends Model
         'domain',
         'r_property',
         'r_style',
+
     ];
 
     public function user()

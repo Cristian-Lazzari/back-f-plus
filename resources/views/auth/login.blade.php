@@ -17,6 +17,7 @@
                             id="email"
                             aria-describedby="emailHelp"
                             name="email"
+                            placeholder="Inserisci la tua email"
                             required
                             autofocus
                             autocomplete="username"
@@ -31,6 +32,7 @@
                             class=""
                             id="password"
                             name="password"
+                            placeholder="Inserisci la tua password"
                             required
                             autocomplete="current-password"
                         >
@@ -38,13 +40,13 @@
             
                     <div class=" form-check">
                         <input type="checkbox" class="form-check-input" id="remember"  name="remember">
-                        <label class="form-check-label" for="remember">Remember me</label>
+                        <label class="form-check-label" for="remember">Rimani registrato</label>
                     </div>
             
                     <div class="act">
 
-                        <a href="{{route('register')}}" class="my_btn_3 ">Registrati</a>
-                        <button type="submit" class="my_btn_5">Login</button>
+                        <a href="{{route('register')}}" class="my_btn_5 ">Registrati</a>
+                        <button type="submit" class="my_btn_7">Login</button>
                     </div>
                 </form>    
             </div>

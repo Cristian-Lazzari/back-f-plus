@@ -43,12 +43,13 @@ class DashboardController extends Controller
         // dump($step);
         // dd($data);
         if($step == 1){
-            $this->step_1($data, $first);
+            $step = $this->step_1($data, $first);
         } elseif($step == 2){
-            $this->step_2($data, $first); 
+            $step = $this->step_2($data, $first); 
         } elseif($step == 3){
-            $this->step_3($data, $first);
+            $step = $this->step_3($data, $first);
         }
+        return back()->with('success', $step);
     }
 
     protected function step_1($data, $consumer){
@@ -58,11 +59,13 @@ class DashboardController extends Controller
             'address' => ['required', 'string', 'max:255'],
             'pec' => ['required', 'string', 'email', 'max:205'],
             'owner_name' => ['required', 'string', 'max:255'],
+            'owner_phone' => ['required', 'string', 'max:255'],
             'owner_surname' => ['required', 'string', 'max:255'],
             'owner_cf' => ['required', 'string', 'max:20'],
         ]);
         
         $consumer->owner_name = $data->owner_name;
+        $consumer->owner_phone = $data->owner_phone;
         $consumer->owner_surname = $data->owner_surname;
         $consumer->owner_cf = $data->owner_cf;
         $consumer->type_agency = $data->type_agency;
@@ -74,55 +77,58 @@ class DashboardController extends Controller
 
         $consumer->owner_bd = $info['data_nascita'];
         $consumer->owner_sex = $info['genere'];
-        $consumer->owner_cm = $info['comune'];
+        $consumer->owner_cm = '??'; //da implementare
 
         $consumer->update();
         $step = [
             'step'=> 2,
             'm'=> 'Complimenti hai completato con successo la prima parte della registrazione'
         ];
+        return $step;
 
-        return back()->with('success', $step);
+        
     } 
     
     protected function step_2($data, $consumer){
+        //dd($data['menu']);
         $data->validate([
             'menu' => ['required', 'array'], // Deve essere un array di file
-            'menu.*' => ['image', 'max:2048'], // Ogni file deve essere un'immagine max 2MB
+            'menu.*' => ['file', 'max:2048'], // Ogni file deve essere un'immagine max 2MB
 
             'r_type' => ['required'],
             'services_type' => ['required'],
             'day_service' => ['required','array'],
-            'day_service.*.time' => ['nullable','string'],
+            'day_service.*' => ['required','string'],
             'domain' => ['required','nullable','url',],
-            'type_domain' => ['required'],
         ]);
 
         $paths = [];
 
         if ($data->hasFile('menu')) {
-            foreach ($data->file('menu') as $image) {
-                $path = $image->store('menus', 'public'); // Salva in storage/app/public/menus
-                $paths[] = $path;
+            $files = is_array($data->file('menu')) ? $data->file('menu') : [$data->file('menu')];
+        
+            foreach ($files as $image) {
+                if ($image && $image->isValid()) {
+                    $path = $image->store('menus', 'public'); 
+                    $paths[] = $path;
+                }
             }
         }
-        $consumer->menu = json_encode($paths); // Salva i percorsi come JSON
-    
+        
+        $consumer->menu = json_encode(array_values($paths), JSON_UNESCAPED_SLASHES);
+        
         $day_service = [];
     
-        foreach ($data['day_service'] as $day => $d) {
-            $day_service[$day] = $d['time'] ?? null;
-        }
         $r_property = [
-            'day_service' => $day_service,
-            'r_type' => $data->r_type,
+            'day_service' => $data['day_service'],
+            'r_type' => $data['r_type'],
         ];
 
         $consumer->r_property = json_encode($r_property);
-        $consumer->services_type = $data->services_type;
+        $consumer->services_type = $data['services_type'];
         $domain = [
-            'domain'=>$data->domain,
-            'type_domain'=>$data->type_domain
+            'domain'=>$data['domain'],
+            'type_domain'=>$data['type_domain']
         ];
         $consumer->domain = json_encode($domain);
         $consumer->update();
@@ -131,7 +137,7 @@ class DashboardController extends Controller
             'step'=> 3,
             'm'=> 'Complimenti hai completato con successo la seconda parte della registrazione'
         ];
-        return back()->with('success', $step); 
+        return $step; 
     }
 
     protected function step_3($data, $consumer){
