@@ -618,8 +618,8 @@ $type_rs = [
                     <h3>Hai già un altro sito web per questo locale?</h3>
 
                     <div class="checkbox-wrapper-35">
-                        <input name="type_domain" id="switch" type="checkbox" class="switch">
-                        <label for="switch">
+                        <input name="type_domain" id="switch{{$c->id}}" type="checkbox" class="switch">
+                        <label for="switch{{$c->id}}">
                             <span class="switch-x-text">Attualmente </span>
                             <span class="switch-x-toggletext">
                                 <span class="switch-x-unchecked"><span class="switch-x-hiddenlabel">Unchecked: </span>HO GIÀ</span>
