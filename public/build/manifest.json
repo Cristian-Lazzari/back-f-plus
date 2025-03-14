@@ -1,10 +1,10 @@
 {
   "public/images/back.png": {
-    "file": "assets/back.18582180.png",
+    "file": "../public/build/assets/back.18582180.png",
     "src": "public/images/back.png"
   },
   "public/images/herofplus.png": {
-    "file": "assets/herofplus.e570e688.png",
+    "file": "../public/build/assets/herofplus.e570e688.png",
     "src": "public/images/herofplus.png"
   },
   "resources/js/app.js": {
