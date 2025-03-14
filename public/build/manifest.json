@@ -1,6 +1,6 @@
 {
   "public/herofplus.png": {
-    "file": "assets/herofplus.e570e688.png",
+    "file": "../public/build/assets/herofplus.e570e688.png",
     "src": "public/herofplus.png"
   },
   "resources/js/app.js": {
