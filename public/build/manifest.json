@@ -8,15 +8,15 @@
     "src": "public/images/herofplus.png"
   },
   "resources/js/app.js": {
-    "file": "../public/build/app.21977638.js",
+    "file": "../public/build/asset/app.21977638.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "../public/build/app.2cba5812.css"
+      "../public/build/asset/app.2cba5812.css"
     ]
   },
   "resources/scss/app.scss": {
-    "file": "../public/build/app.2cba5812.css",
+    "file": "../public/build/asset/app.2cba5812.css",
     "src": "resources/scss/app.scss",
     "isEntry": true
   }
