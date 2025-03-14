@@ -374,7 +374,7 @@ $type_rs = [
                             $domain = parse_url(json_decode($c->domain, 1)['domain'], PHP_URL_HOST)
                         @endphp
                         <img src="{{'https://' . $domain . '/img/favicon.png'}}" alt="">
-                        <a href="{{$domain}}">
+                        <a href="{{'https://' . $domain}}">
                             <h1 >{{$c->activity_name}}</h1>
                         </a>
                         <div class="bottom">
