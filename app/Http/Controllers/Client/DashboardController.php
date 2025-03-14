@@ -75,8 +75,8 @@ class DashboardController extends Controller
 
         $info = $this->parseCodiceFiscale($data->owner_cf);
 
-        $consumer->owner_bd = $info['data_nascita'];
-        $consumer->owner_sex = $info['genere'];
+        $consumer->owner_bd = $info['data_nascita'] ?? null;
+        $consumer->owner_sex = $info['genere'] ?? null;
         $consumer->owner_cm = '??'; //da implementare
 
         $consumer->update();

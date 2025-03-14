@@ -12,11 +12,11 @@
         <div class="body">
                 <h3>Modifica i tuoi dati</h3>
 
-                <form id="send-verification" method="post" action="{{ route('verification.send') }}">
+                <form  id="send-verification" method="post" action="{{ route('verification.send') }}">
                     @csrf
                 </form>
 
-                <form method="post" action="{{ route('client.profile.update') }}" class="mt-6 space-y-6">
+                <form class="form-reg" method="post" action="{{ route('client.profile.update') }}" class="mt-6 space-y-6">
                     @csrf
                     @method('patch')
                     <div class="split">
@@ -68,41 +68,46 @@
                 </form>
 
                 <h3>Modifica la tua password</h3>
-                <section>
 
 
-                    <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
-                        @csrf
-                        @method('put')
 
-                            <div class="input_form">
-                                <label for="current_password"  :value="__('Current Password')"> Password attuale </label>
-                                <input id="current_password" name="current_password" type="text" required autofocus autocomplete="current_password" />
-                            </div>
-                            @error('current_password') <p class="error w-100">{{ $message }}</p> @enderror
+                <form class="form-reg" method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+                    @csrf
+                    @method('put')
 
-                            <div class="input_form">
-                                <label for="password" :value="__('New Password')"> Nuova password </label>
-                                <input id="password" name="password" type="text" required autofocus autocomplete="password" />
-                            </div>
-                            @error('password') <p class="error w-100">{{ $message }}</p> @enderror
-                            <div class="input_form">
-                                <label for="password"  :value="__('Confirm Password')"> Ripeti nuova password </label>
-                                <input id="password" name="password" type="text" required autofocus autocomplete="password" />
-                            </div>
-                            @error('password_confirmation') <p class="error w-100">{{ $message }}</p> @enderror
+                        <div class="input_form">
+                            <label for="current_password"  :value="__('Current Password')"> Password attuale </label>
+                            <input id="current_password" name="current_password" type="text" required autofocus autocomplete="current_password" />
+                        </div>
+                        @error('current_password') <p class="error w-100">{{ $message }}</p> @enderror
+
+                        <div class="input_form">
+                            <label for="password" :value="__('New Password')"> Nuova password </label>
+                            <input id="password" name="password" type="text" required autofocus autocomplete="password" />
+                        </div>
+                        @error('password') <p class="error w-100">{{ $message }}</p> @enderror
+                        <div class="input_form">
+                            <label for="password"  :value="__('Confirm Password')"> Ripeti nuova password </label>
+                            <input id="password" name="password" type="text" required autofocus autocomplete="password" />
+                        </div>
+                        @error('password_confirmation') <p class="error w-100">{{ $message }}</p> @enderror
 
 
-   
 
-                            <button type="submit" class="my_btn_4">Modifica</button>
 
-                            @if (session('status') === 'password-updated')
-                                <p class="my_btn_6 mt-3 mb-5 w-100 m-auto">Modifica avventa riuscita con successo</p>
-                            @endif
+                        <button type="submit" class="my_btn_4">Modifica</button>
 
-                    </form>
-                </section>
+                        @if (session('status') === 'password-updated')
+                            <p class="my_btn_6 mt-3 mb-5 w-100 m-auto">Modifica avventa riuscita con successo</p>
+                        @endif
+
+                </form>
+                <p>Esci da questo account</p>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="my_btn_7" type="submit">Logout</button>
+                </form>     
+
         </div>
 
     </div>

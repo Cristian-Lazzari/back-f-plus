@@ -6,7 +6,7 @@
         <div class="center_hero">
             <img src="{{ asset('logo.png') }}" alt="">
             <div class="right">
-                <form method="POST" class="registration" action="{{ route('register') }}">
+                <form method="POST" class="registration " action="{{ route('register') }}">
                     @csrf
                     <div class="split">
                         <div class="input_form">

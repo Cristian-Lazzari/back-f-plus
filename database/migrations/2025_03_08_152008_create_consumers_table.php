@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
         //{
             $table->boolean('active')->default(false);             //dati servizio
-            $table->tinyInteger('status')->default(false);            // 1 essentials, 2 w-on, 3 b-up, 4 prova gratuita 
-            $table->string('discount')->default(false);            
+            $table->tinyInteger('status')->default(4);            // 1 essentials, 2 w-on, 3 b-up, 4 prova gratuita 
+            $table->string('discount')->default('0');            
         //}   
             $table->string('activity_name')->nullable();           //dati Azienda
             $table->string('pec', 60)->nullable();               
