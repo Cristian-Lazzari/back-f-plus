@@ -88,7 +88,7 @@ $fs_lg: clamp(20px, 3.2vw, 35px);
 $fs_xlg: clamp(28px, 3.8vw, 39px);
  
 .d-back-g{
-    background-image: url(../../public/images/back.png);
+
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -892,7 +892,7 @@ body{
           color: $c3;
           height: 100svh;
           width: 100%;
-          background-image: url('../../public/images/herofplus.png');
+          background-image: url(../../public/images/herofplus.png);;
           background-position: center;
           background-size: cover;
           display: flex;

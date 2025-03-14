@@ -4,7 +4,7 @@
 <div class="login-page">
     <div class="hero">
         <div class="center_hero">
-            <img src="{{ asset('logo.png') }}" alt="">
+            <img src="{{ asset('public/logo.png') }}" alt="">
             <div class="right">
                 <form method="post" action="{{ route('login') }}">
                     @csrf

@@ -1,8 +1,4 @@
 {
-  "public/images/back.png": {
-    "file": "../public/build/assets/back.18582180.png",
-    "src": "public/images/back.png"
-  },
   "public/images/herofplus.png": {
     "file": "../public/build/assets/herofplus.e570e688.png",
     "src": "public/images/herofplus.png"
@@ -12,11 +8,11 @@
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "../public/build/assets/app.2cba5812.css"
+      "../public/build/assets/app.b7ee52bb.css"
     ]
   },
   "resources/scss/app.scss": {
-    "file": "../public/build/assets/app.2cba5812.css",
+    "file": "../public/build/assets/app.b7ee52bb.css",
     "src": "resources/scss/app.scss",
     "isEntry": true
   }
