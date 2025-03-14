@@ -19,7 +19,7 @@ use App\Http\Controllers\Guests\PageController as GuestsPageController;
 
 
 Route::get('/', function () {
-    return view('guests/home');
+    return redirect(route('login'));
 });
 Route::get('/doc', function () {
     return view('guests/documentazione');
