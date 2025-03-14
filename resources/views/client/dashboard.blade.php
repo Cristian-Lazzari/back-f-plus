@@ -407,7 +407,7 @@ $type_rs = [
             <div class="assistance">
                 <h2 class="title_lg">La nostra assistenza</h2>
                 <div class="ticket">
-                    <img src="{{asset('favicon.png')}}" alt="">
+                    <img src="{{asset('public/favicon.png')}}" alt="">
                     <a href="https://future-plus.it">
                         <h1>Contattaci subito</h1>
                     </a>
