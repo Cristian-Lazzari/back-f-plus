@@ -23,8 +23,8 @@ class PageController extends Controller
 {
 
     public function admin() {
-        
-        return view('admin.dashboard');
+        $consumers = Consumer::all();
+        return view('admin.dashboard', compact('consumers'));
     }
 
 
