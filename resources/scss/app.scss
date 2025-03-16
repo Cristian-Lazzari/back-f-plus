@@ -1105,8 +1105,8 @@ body{
 
 .mydash{
     display: flex;
-    border: dashed 2px $c2;
-    padding: .9rem;
+    //border: dashed 2px $c2;
+    //padding: .9rem;
     flex-wrap: wrap;
     gap: 1rem;
     p{
@@ -1115,12 +1115,13 @@ body{
     .tables{
         flex: 1;
         border-radius: 10px;
-        min-width: 600px;
+        min-width: 800px;
         background-color: var(--c3);
         display: flex;
         //align-items: center;
         flex-direction: column !important;
 
+        flex: 1 1; 
     }
     .my-table{
         color: var(--c1);
@@ -1200,17 +1201,17 @@ body{
                     gap: .32rem;
                     justify-content: flex-end;
                     a{
-                        border-radius: 10px;
+                        border-radius: 7px;
                         color: $c2;
                         background-color: var(--c1);
-                        width: 40px;
-                        height: 40px;
+                        width: 35px;
+                        height: 35px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
                     }
                     .dt{
-                        width: 27px;
+                        width: 20px;
                         background-color: var(--c3);
                         color: var(--c1);
                     }
@@ -1222,6 +1223,10 @@ body{
         .client, .head{
             grid-template-columns: 3fr 3fr 3fr 1fr !important;
         }
+        .name{
+            padding: .3rem;
+            padding-left: .7rem;
+        }
         .pack{
             display: flex;
             gap: .2rem;
@@ -1229,25 +1234,53 @@ body{
             flex-wrap: wrap;
             background-color: rgba(255, 0, 0, 0) !important;
             box-shadow: none !important;
+            padding: 0 !important;
             img{
+                height: 35px;
+                width: 35px;
                 margin: 0 !important;
             }
         }
     }
-    .chart{
-        flex: 1;
+    .chart-cont{
+        flex: 1 1; 
         padding: .8rem;
         background-color: var(--c3);
         border-radius: 10px;
-        max-width: 600px;
-        min-width: 310px;
-        min-height: 470px;
-        height: auto;
-        object-fit: contain;
+        display: flex;
+        gap: 1rem;
+        flex-direction: column;
+        .result{
+            background-color: var(--c2);
+            color: var(--c1);
+            display:flex;
+            padding: 1rem;
+            border-radius: 10px;
+            justify-content: space-between;
+            .r{
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                gap: .4rem;
+            }
+        }
+        //object-fit: cover;
+
+    }
+    .chart-cont.large-c{
+        width: 100% !important;
+        min-width: 700px ;
+        max-width: 100% !important;
     }
 }
-@media (max-width: $bp_md) {
-    .my-table{
+@media (max-width: 850px) {
+    .chart{
+        max-width: 100% !important;
+    }
+    .chart.large-c{
+        min-width: 280px !important;
+    }
+    .tables{
         min-width: 300px !important;
         .head, .client{
             grid-template-columns: 3fr 2fr !important;

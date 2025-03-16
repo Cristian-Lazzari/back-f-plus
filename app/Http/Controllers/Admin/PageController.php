@@ -29,14 +29,33 @@ class PageController extends Controller
 
         $statusCounts = [
             'Essentials' => Consumer::where('status', 1)->count(),
-            'Grow Up' => Consumer::where('status', 2)->count(),
+            'Work On' => Consumer::where('status', 2)->count(),
             'Boost Up' => Consumer::where('status', 3)->count(),
             'Prova Gratis' => Consumer::where('status', '>', 3)->count(),
         ];
 
+        $subscriptions = Consumer::select(
+            DB::raw("DATE(created_at) as date"),
+            DB::raw("SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as essentials"),
+            DB::raw("SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) as work_on"),
+            DB::raw("SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) as boost_up"),
+        )
+        ->groupBy('date')
+        ->orderBy('date', 'ASC')
+        ->get();
+
+        // Estrai i dati per il grafico
+        $subscriptions_chart = [
+            'labels' => $subscriptions->pluck('date'),
+            'essentials' => $subscriptions->pluck('essentials'),
+            'WorkOn' => $subscriptions->pluck('work_on'),
+            'BoostUp' => $subscriptions->pluck('boost_up'),
+        ];
+        $subscriptions_chart = json_encode($subscriptions_chart);
+
         // Passiamo i dati alla vista
 
-        return view('admin.dashboard', compact('consumers', 'statusCounts', 'users'));
+        return view('admin.dashboard', compact('consumers', 'statusCounts', 'users', 'subscriptions_chart'));
     }
 
 

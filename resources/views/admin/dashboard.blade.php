@@ -72,7 +72,7 @@
                                 @endforeach
                             </p>
                             <p class="link">
-                                <a class="pack dt" href="{{'https://db.'.$domain }}"> 
+                                <a class="dt" href="{{route('admin.consumers.show', $c->id)}}"> 
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
                                         <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
                                     </svg>
@@ -84,7 +84,24 @@
             </div>
 
         </div>
-    <canvas class="chart" id="statusChart"></canvas>
+        <div class="chart-cont">
+            <canvas class="chart " id="statusChart"></canvas>
+            <div class="result">
+                @php
+                    $subscriptions_chart = json_decode($subscriptions_chart, 1);
+                    
+                @endphp
+                @foreach ($statusCounts as $key => $value)
+                    <div class="r">
+                        <h3>{{$value}}</h3>
+                        <p>{{$key}}</p>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        <div class="chart-cont large-c">
+            <canvas class="chart" id="subscriptionsChart"></canvas>
+        </div>
         
     </div>
 </div>
@@ -108,17 +125,78 @@
                 }]
             },
             options: {
-                responsive: true,
                 plugins: {
                     legend: {
+                        // display: false,
                         position: 'top', // Sposta la legenda sotto il grafico
                     }
                 }
             }
         });
-    });
-</script>
 
+        
+        const data_s = {!! json_encode(($subscriptions_chart)) !!};
+        
+        var ctx_1 = document.getElementById('subscriptionsChart').getContext('2d');
+        var subscriptionsChart = new Chart(ctx_1, {
+            type: 'line',
+            data: {
+                labels: data.labels,
+                datasets: [
+                    {
+                        label: 'Essentials',
+                        data: data.essentials,
+                        borderColor: '#10b7934f',
+                        backgroundColor: '#10b7934f',
+                        tension: 0.4,
+                        fill: true,
+                    },
+                    {
+                        label: 'Work On',
+                        data: data.WorkOn,
+                        borderColor: '#10b7937b',
+                        backgroundColor: '#10b7937b',
+                        tension: 0.4,
+                        fill: true,
+                    },
+                    {
+                        label: 'Boost Up',
+                        data: data.BoostUp,
+                        borderColor: '#10b793',
+                        backgroundColor: '#10b793',
+                        tension: 0.4,
+                        fill: true,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: false,
+                            text: 'Data'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: false,
+                            text: 'Numero di sottoscrizioni'
+                        },
+
+                    }
+                }
+            }
+        });
+    });
+
+
+</script>
 
 
 
