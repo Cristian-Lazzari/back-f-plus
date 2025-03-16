@@ -1,4 +1,4 @@
-@extends('layouts.baseClient')
+@extends('layouts.base')
 
 @section('contents')
 @php
