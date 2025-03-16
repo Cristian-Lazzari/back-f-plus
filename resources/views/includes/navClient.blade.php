@@ -2,7 +2,7 @@
     <div class="container-fluid">
 
         <div class="d-flex">
-            <a class="my_btn_5 mylinknavs" href="{{ route('client.dashboard') }}">Dashboard</a>
+            <a class="my_btn_1 mylinknavs" href="{{ route('client.dashboard') }}">Dashboard</a>
         </div>
 
         <button class="navbar-toggler myitem" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,7 +14,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
 
                 
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown opacity-50">
                     <a class="nav-link mylinknav dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Fatture
                     </a>
@@ -24,11 +24,11 @@
                     </ul>
                 </li>
 
-                <li class="nav-item ">
+                {{-- <li class="nav-item ">
                     <a class="nav-link mylinknav" href="{{ route('admin.dates.index') }}">
                         Gestione servizio
                     </a>
-                </li>   
+                </li>    --}}
                   
                 <li class="nav-item dropdown">
                     <a class="nav-link my_btn_7" href="{{ route('client.profile.edit') }}">
