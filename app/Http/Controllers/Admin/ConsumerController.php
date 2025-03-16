@@ -49,7 +49,7 @@ class ConsumerController extends Controller
     public function show($id)
     {
         $consumer = Consumer::where('id', $id)->firstOrFail();
-        $user = User::where('id', $consumer->id)->first();
+        $user = User::where('id', $consumer->user_id)->first();
         return view('admin.Consumers.show', ['c' => $consumer, 'user' =>$user]);      
     }
 
