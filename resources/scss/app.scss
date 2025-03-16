@@ -1106,16 +1106,26 @@ body{
 .mydash{
     display: flex;
     border: dashed 2px $c2;
-    padding: 1rem;
+    padding: .9rem;
+    flex-wrap: wrap;
+    gap: 1rem;
     p{
         margin: 0;
     }
-    .my-table{
+    .tables{
+        flex: 1;
+        border-radius: 10px;
+        min-width: 600px;
         background-color: var(--c3);
+        display: flex;
+        //align-items: center;
+        flex-direction: column !important;
+
+    }
+    .my-table{
         color: var(--c1);
         display: flex;
         padding: .8rem;
-        border-radius: 10px;
         flex: 1;
         flex-direction: column;
         gap: .5rem;
@@ -1129,7 +1139,7 @@ body{
             grid-template-columns: 3fr 3fr 2fr 2fr;
             gap: 5px;
             p{
-
+                text-transform: uppercase;
                 text-align: center;
             }
         }
@@ -1141,11 +1151,20 @@ body{
         }
         .body{
             display: flex;
-            gap: .2rem;
+            gap: .3rem;
             flex-direction: column;
             flex-wrap: nowrap;
+            img{
+                border-radius: 10px;
+                height: 37px;
+                width: 37px;
+                object-fit: cover;
+                background-color: var(--c3_op);
+                border: 2px solid var(--c1);
+                margin-right: 5px;
+            }
             .client{
-                padding: .3rem .3rem .3rem 1rem;
+                padding: .3rem;
                 gap: 5px;
                 color: var(--c1);
                 background-color: var(--c1_op);
@@ -1157,33 +1176,29 @@ body{
 
                 .name{
                     text-align: start;
-                    img{
-                        border-radius: 10px;
-                        height: 37px;
-                        width: 37px;
-                        object-fit: cover;
-                        border: 2px solid var(--c1);
-                    }
+                    font-weight: 300;
+                    
                 }
                 .pack, .date{
                     padding: .2rem;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    background-color: var(--c3);
+                    background-color: var(--c3_op);
                     border-radius: 10px;
                     font-weight: 200;
                     box-shadow: 0 0 .3rem var(--c1_op);
+                    font-size: $fs_xsm;
                 }
                 .pack{
-                    text-shadow: 0 0 4px var(--c1);
                     color: var(--c3);
+                    text-shadow: 0 0 4px var(--c1);
                     font-weight: 800;
                     background-color: var(--c2);
                 }
                 .link{
                     display: flex;
-                    gap: .3rem;
+                    gap: .32rem;
                     justify-content: flex-end;
                     a{
                         border-radius: 10px;
@@ -1195,9 +1210,53 @@ body{
                         align-items: center;
                         justify-content: center;
                     }
+                    .dt{
+                        width: 27px;
+                        background-color: var(--c3);
+                        color: var(--c1);
+                    }
                 }
             }
         }
+    }
+    .user{
+        .client, .head{
+            grid-template-columns: 3fr 3fr 3fr 1fr !important;
+        }
+        .pack{
+            display: flex;
+            gap: .2rem;
+            align-items: center;
+            flex-wrap: wrap;
+            background-color: rgba(255, 0, 0, 0) !important;
+            box-shadow: none !important;
+            img{
+                margin: 0 !important;
+            }
+        }
+    }
+    .chart{
+        flex: 1;
+        padding: .8rem;
+        background-color: var(--c3);
+        border-radius: 10px;
+        max-width: 600px;
+        min-width: 310px;
+        min-height: 470px;
+        height: auto;
+        object-fit: contain;
+    }
+}
+@media (max-width: $bp_md) {
+    .my-table{
+        min-width: 300px !important;
+        .head, .client{
+            grid-template-columns: 3fr 2fr !important;
+        }
+
+    }
+    .ex-mb{
+        display: none !important;
     }
 }
 

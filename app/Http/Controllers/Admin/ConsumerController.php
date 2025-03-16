@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Consumer;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ConsumerController extends Controller
 {
@@ -46,7 +48,9 @@ class ConsumerController extends Controller
      */
     public function show($id)
     {
-        //
+        $consumer = Consumer::where('id', $id)->firstOrFail();
+        $user = User::where('id', $consumer->id)->first();
+        return view('admin.Consumers.show', ['c' => $consumer, 'user' =>$user]);      
     }
 
     /**

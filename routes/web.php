@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\MailerController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ConsumerController;
 use App\Http\Controllers\Admin\IngredientController;
 use App\Http\Controllers\Client\DashboardController;
 use App\Http\Controllers\Admin\ReservationController;
@@ -72,6 +73,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/dates/generate',  [DateController::class, 'generate'])->name('dates.generate');
         
         //resource
+        Route::resource('/consumers',     ConsumerController::class);
         Route::resource('/settings',      SettingController::class);
         Route::resource('/dates',         DateController::class);
         Route::resource('/posts',         PostController::class);

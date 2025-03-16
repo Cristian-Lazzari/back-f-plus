@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin;
 use Carbon\Carbon;
 use App\Models\Date;
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Setting;
@@ -24,7 +25,18 @@ class PageController extends Controller
 
     public function admin() {
         $consumers = Consumer::all();
-        return view('admin.dashboard', compact('consumers'));
+        $users = User::with('consumers')->get();
+
+        $statusCounts = [
+            'Essentials' => Consumer::where('status', 1)->count(),
+            'Grow Up' => Consumer::where('status', 2)->count(),
+            'Boost Up' => Consumer::where('status', 3)->count(),
+            'Prova Gratis' => Consumer::where('status', '>', 3)->count(),
+        ];
+
+        // Passiamo i dati alla vista
+
+        return view('admin.dashboard', compact('consumers', 'statusCounts', 'users'));
     }
 
 

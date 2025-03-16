@@ -93,7 +93,7 @@ class DashboardController extends Controller
         //dd($data['menu']);
         $data->validate([
             'menu' => ['required', 'array'], // Deve essere un array di file
-            'menu.*' => ['file', 'max:2048'], // Ogni file deve essere un'immagine max 2MB
+            'menu.*' => ['file', 'mimes:jpeg,jpg,docx,xlsx', 'max:5120'], // Ogni file deve essere un'immagine max 2MB
 
             'r_type' => ['required'],
             'services_type' => ['required'],
