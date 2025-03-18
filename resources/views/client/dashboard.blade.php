@@ -736,7 +736,7 @@ $type_rs = [
                     @error('menu') <p class="error w-100">{{ $message }}</p> @enderror
                     @error('menu*') <p class="error w-100">{{ $message }}</p> @enderror
 
-                    <button type="submit" class="my_btn_1">Avvia la prova Gratuita</button>
+                    <button type="submit" class="my_btn_1">Continua la registrazione</button>
 
                 </form>
                 <div class="foot">
