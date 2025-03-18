@@ -89,7 +89,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     ->name('client.')
     ->group(function () {
         Route::get('/dashboard',                [DashboardController::class, 'home'])->name('dashboard');
-        Route::post('/complete_registration',  [DashboardController::class, 'complete_registration'])->name('complete_registration');
+        Route::post('/complete_registration',   [DashboardController::class, 'complete_registration'])->name('complete_registration');
+        Route::post('/delete_sub',              [DashboardController::class, 'delete_sub'])->name('delete_sub');
        
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

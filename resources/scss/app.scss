@@ -137,8 +137,8 @@ $fs_xlg: clamp(28px, 3.8vw, 39px);
 }
 .my_btn_3{
     background-color: var(--c3);
-    color: var(--c2);
-    text-shadow: 1px 1px 4px var(--c2_op);
+    color: var(--c1);
+    text-shadow: 1px 1px 4px var(--c1_op);
 }
 .my_btn_4{
     background-color: var(--c1); 
@@ -496,7 +496,7 @@ body{
                 align-items: center;
                 gap: 1.5rem;
                 img{
-                    width: clamp(180px, 30vw, 680px);
+                    width: clamp(180px, 27vw, 500px);
                     //height: auto;
                     object-fit: contain;
                     filter: drop-shadow(0 0 10px $c3_op);
@@ -507,7 +507,7 @@ body{
                     display: flex;
                     flex-direction: column;
                     gap: 1.3rem;
-                    width: 30%;
+                    width: 50%;
                     form{
                         display: flex;
                         align-items: flex-start;
@@ -866,13 +866,40 @@ body{
                 cursor: pointer;
             }
             .active{
+                color: var(--c3);
+                scale: 1.2;
                 border: $w solid var(--c1);
-                background-color: $c1_op;
+                background-color: $c1;
             }
         }
     }
     .body{
-        
+        #payment-form{
+            margin: 0 auto;
+            max-width: 450px;
+            padding: 1.4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background-color: $c1_op;
+            box-shadow: -4px 4px 0 $c1;
+            border-radius: 20px;
+            label{
+                color: $c3;
+            }
+            #card-number, #card-expiry, #card-cvc {
+                border-radius: 10px;
+                border: none;
+                color: $c1;
+                background: linear-gradient(145deg, rgba($c3_op, .5) , rgba($c3_op, .8));
+
+                font-size: $fs_xsm;
+                padding: .5rem;
+                border: 1px solid $c3_op;
+            }
+
+
+        }
     }
     .foot{
         display: flex;
@@ -883,7 +910,192 @@ body{
         }
     }
 }
-.form-reg{
+.pack_selction{
+    max-width: 950px;
+    .body{
+        .packages{
+            .scelta{
+                border: 2px solid var(--c3);
+                //box-shadow: -3px 3px var(--c3_op),  0 0 20px -3px $c3_op ;
+                background-color: rgba($c1, .9);
+                color: var(--c3);
+                padding: .1rem;
+                border-radius: 30px;
+                margin: 0 auto 3rem; 
+                font-size: $fs_sm;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                width: fit-content;
+                position: sticky;
+                top: 12svh;
+                z-index: 9;
+                div{
+                    border-radius: 100px;
+                    padding: .5rem 2rem;
+                }
+                .mm{
+                    background-color: var(--c3);
+                    //color: var(--c3);
+                    color: var(--c1);
+                    text-shadow: 0 0 10px var(--c3);
+                    //box-shadow: 3px 0 5px var(--c1);
+                }
+                .aa{
+                    text-shadow: 0 0 8px var(--c3_op);
+                    color: var(--c3);
+                    background-color: $c2;
+                    //box-shadow: -3px 0 5px $c2;
+                }
+                .on{
+                    transition: all .4s ease-in-out;
+                    position: relative;
+                    z-index: 4;
+                    font-weight: 900;
+                  
+                }
+                // .on.mm{
+                //   background-color: $c2_op;
+          
+                // }
+                .off{
+                    transition: all .4s ease-in;
+                    position: relative;
+                    z-index: 4;
+                    opacity: .8;
+                }
+          
+                .ball{
+                    transition: all .5s cubic-bezier(0.455, 2, 0.3, 1.2);
+                    z-index: 2;
+                    background-color:$c2;
+                    height: 1rem;
+                    width: 2rem;
+                    position: absolute;
+                    filter: blur(16px);
+                    animation: ball 5s linear infinite;
+                }
+                
+                .right{
+                    margin-left: -50%;
+                    background-color:var(--c1);
+                }
+                .left{   
+                    margin-right: -50%;
+                }
+                
+            }
+            .prices{
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                justify-content: space-evenly;
+                justify-content: center;
+                gap: 1rem;
+                flex-wrap: wrap;
+                .schedule{
+                    background-color: var(--c1);
+                    max-width: 280px;
+                    box-shadow:  0 0 15px -2px rgba(0, 0, 0, 0.416) ;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1.2rem;
+                    color: var(--c3);
+                    padding: 1rem 1.2rem;
+                    border-radius: 15px;
+                    font-size: $fs_xsm;
+                    
+                    h4{
+                        font-size: $fs_lg;
+                        font-weight: bolder;
+                        text-align: center;
+                    }
+                    .feat{
+                        width: 100%;
+                        flex-direction: row;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        gap: 1.4rem;
+                        p{
+                            width: clamp(200px, 70vw, 340px);   
+                            text-align: start;
+                            font-size: $fs_xsm;
+                            margin: 0 !important;
+                        }
+                        svg{
+                            flex:  0 0 auto;
+                            width: 20px;
+                            height: 20px;
+                            //aspect-ratio: 1;
+                        }
+                    }
+                    .off{
+                        opacity: .3;
+                        //text-decoration: line-through ;
+                    }
+                    .btn-1{
+                        margin-top: 2rem;
+                    }
+                    .price-c{
+                        margin-top: auto;
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: .7rem;
+                        .sp{
+                            display: inline-block !important;
+                            margin-left: .1rem;
+                        }
+                        .price{
+                            //display: flex;
+                            margin: 0 !important;
+                            align-self: center;
+                            font-style: normal;
+                            font-size: $fs_lg;
+                            .unit_m{
+                                font-size: $fs_lg !important;   
+                                font-weight: 900;
+                            }
+                            
+                            span{
+                                display: inline; 
+                                font-size: $fs_sm !important;   
+                            }
+                        }
+                        .price-y{
+                            margin: 0 !important;
+                            align-self: center;
+                            font-style: normal;
+                            //margin: .5rem !important;
+
+                            .unit_a{
+                                font-size: $fs_sm !important;   
+                                font-weight: 900 !important;
+                            }
+                            span{
+                                display: inline;
+                            }
+                        }
+                        span{
+                            display: block;
+                            font-weight: 100;
+                        }
+                        p{
+                            font-style: italic;
+                            font-size: $fs_xsm;
+                            margin: 0!important;
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
+}
+.form-reg, #payment-form{
     display: flex;
     align-items: flex-start;
     flex-direction: column;
@@ -907,7 +1119,7 @@ body{
         }
     }
     .input_form, .full, .times{
-        input, select{
+        input, select {
             border-radius: 10px;
             border: none;
             color: $c1;

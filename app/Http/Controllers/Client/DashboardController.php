@@ -2,36 +2,63 @@
 
 namespace App\Http\Controllers\Client;
 
+use Carbon\Carbon;
+use Stripe\Stripe;
+use Stripe\Webhook;
+use Stripe\Customer;
 use App\Models\Consumer;
+use Stripe\Subscription;
+use Stripe\PaymentMethod;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function home() {
+    public function home(Request $request) {
         $consumer = Consumer::where('user_id', Auth::user()->id)->get();
-                
-        if(count($consumer) === 0){
-            Auth::logout();
-            //return view('auth.register');
-        } else {
-            $first = $consumer[0];
-            if($first->vat == null){
-                $s = 1;
-            } elseif($first->domain == null){
-                $s = 2;    
-            } elseif($first->r_style == null){ 
-                $s = 3;
-            } else {
-                $s = 4;
-            }
-            $step = [
-                'step' => $s,
-                'm' => null
-            ];
-            
+        $final = $request->query('final', 1);
+        if($final == 5){
+            $step = [ 'step' => 5, 'm' => 'Complimenti hai completato la registrazione a future+'];
             return view('client.dashboard', compact('step', 'consumer'));
+        }
+                
+        $first = $consumer[0];
+        $r_p_f = json_decode($first->r_property, 1);
+        if($first->vat == null){ $s = 1;
+        } elseif($first->domain == null){ $s = 2;    
+        } elseif($first->status == 0){ $s = 3; 
+        } elseif($r_p_f['stripe_id'] == ''){ $s = 3;//dd($r_p_f);
+        } else { $s = 6; //complete
+        }
+        $step = [
+            'step' => $s,
+            'm' => null
+        ];
+       
+        return view('client.dashboard', compact('step', 'consumer'));
+    
+    }
+    public function delete_sub(Request $request) {
+
+        try {
+            Stripe::setApiKey(config('services.stripe.secret'));
+
+            $consumer = Consumer::where('id', $request['id'])->firstOrFail();
+            $c = json_decode($consumer->r_property);
+
+            if (!$c['stripe_id']) {
+                return redirect()->back()->with('error', 'Utente non associato a Stripe.');
+            }
+            $subscription = Subscription::retrieve($c['subscription_id']);
+
+            if ($subscription->status !== 'canceled') {
+                $subscription->cancel();
+                return redirect()->back()->with('success', 'Abbonamento annullato con successo.');
+            }
+            return redirect()->back()->with('info', 'L\'abbonamento è già stato annullato.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Errore: ' . $e->getMessage());
         }
     }
 
@@ -42,13 +69,21 @@ class DashboardController extends Controller
         $step = $data['step'];
         // dump($step);
         // dd($data);
-        if($step == 1){
-            $step = $this->step_1($data, $first);
-        } elseif($step == 2){
-            $step = $this->step_2($data, $first); 
-        } elseif($step == 3){
-            $step = $this->step_3($data, $first);
-        }
+        if($step == 1){ $step = $this->step_1($data, $first);
+        } elseif($step == 2){ $step = $this->step_2($data, $first); 
+        } elseif($step == 3){ $step = $this->step_3($data, $first);
+        } elseif($step == 4){ $step = $this->step_4($data, $first);
+            if($step['error'] == 'none'){
+                return response()->json([
+                    'success' => true, 
+                ]);
+            }else{
+                return response()->json([
+                    'success' => false, 
+                    'error' => $step['error']
+                ]);
+            }
+        } 
         return back()->with('success', $step);
     }
 
@@ -82,7 +117,7 @@ class DashboardController extends Controller
         $consumer->update();
         $step = [
             'step'=> 2,
-            'm'=> 'Complimenti hai completato con successo la prima parte della registrazione'
+            'm'=> 'Complimenti hai completato con successo la seconda parte della registrazione'
         ];
         return $step;
 
@@ -92,21 +127,19 @@ class DashboardController extends Controller
     protected function step_2($data, $consumer){
         //dd($data['menu']);
         $data->validate([
-            'menu' => ['required', 'array'], // Deve essere un array di file
+            'menu' => ['nullable', 'array'], // Deve essere un array di file
             'menu.*' => ['file', 'mimes:jpeg,jpg,docx,xlsx', 'max:5120'], // Ogni file deve essere un'immagine max 2MB
-
             'r_type' => ['required'],
             'services_type' => ['required'],
             'day_service' => ['required','array'],
             'day_service.*' => ['required','string'],
-            'domain' => ['required','nullable','url',],
+            'domain' => ['required','url',],
         ]);
 
         $paths = [];
 
         if ($data->hasFile('menu')) {
             $files = is_array($data->file('menu')) ? $data->file('menu') : [$data->file('menu')];
-        
             foreach ($files as $image) {
                 if ($image && $image->isValid()) {
                     $path = $image->store('menus', 'public'); 
@@ -115,15 +148,17 @@ class DashboardController extends Controller
             }
         }
         
-        $consumer->menu = json_encode(array_values($paths), JSON_UNESCAPED_SLASHES);
-        
         $day_service = [];
-    
         $r_property = [
             'day_service' => $data['day_service'],
             'r_type' => $data['r_type'],
+            'activation_date' => '',
+            'renewal_date' => '',
+            'stripe_id' => '',
+            'subscription_id' => ''
         ];
-
+        
+        $consumer->menu = json_encode(array_values($paths), JSON_UNESCAPED_SLASHES);
         $consumer->r_property = json_encode($r_property);
         $consumer->services_type = $data['services_type'];
         $domain = [
@@ -135,13 +170,87 @@ class DashboardController extends Controller
 
         $step = [
             'step'=> 3,
-            'm'=> 'Complimenti hai completato con successo la seconda parte della registrazione'
+            'm'=> 'Complimenti hai completato con successo la terza parte della registrazione'
         ];
         return $step; 
     }
 
     protected function step_3($data, $consumer){
-        // Implementazione della terza fase
+
+        // impostare pacchetto e tipo fatturazione (mensile / annuale)
+        // $status = [     'niente ancora',     'Essntials | Y',      'Work on   | Y',     'Boost up  | Y',     'Essntials | M',     'Work on   | M',     'Boost up  | M',
+        // ];
+        $ty = $data['type_pay'];
+        if($ty == 1){
+            $consumer->status = $data['pack'];
+        }else{
+            $consumer->status = $data['pack'] + 3;
+        }
+        $consumer->update();
+        $step = [
+            'step'=> 4,
+            'm'=> ''
+        ];
+        return $step;
+    }
+    protected function step_4($data, $consumer){
+        try {
+            Stripe::setApiKey(config('c.STRIPE_SECRET'));
+    
+            // Creazione del cliente su Stripe
+            $customer = Customer::create([
+                'email' => auth()->user()->email,
+                'payment_method' => $data->payment_method, // Associa metodo di pagamento
+                'invoice_settings' => ['default_payment_method' => $data->payment_method] // Assicura che venga usato per i pagamenti automatici
+            ]);
+            $price_list= [
+                '',
+                'price_1OlsotCusoKCSgsdwj59SwgF',
+                'price_1QMbNVCusoKCSgsdpIav4RY4',
+                'price_1QMdb1CusoKCSgsdYXeDCz9r',
+                
+                'price_1QMbKICusoKCSgsdgIZXpYq1',
+                'price_1QMdY0CusoKCSgsdbeXqOjtW',
+                'price_1QMde1CusoKCSgsdpY5oJfEm',
+            ];
+            // Creazione dell'abbonamento con pagamento automatico
+            $subscription = Subscription::create([
+                'customer' => $customer->id,
+                'items' => [['price' => 'price_1OlsrICusoKCSgsdH4AUgm4Q']], // Usa il tuo price_id reale
+                //'items' => [['price' => $price_list[$consumer->status]]], // Usa il tuo price_id reale
+                'off_session' => true, // Nessuna conferma manuale
+                'automatic_tax' => ['enabled' => false],
+                //'trial_period_days' => 30, // Imposta il numero di giorni di prova gratuita
+            ]);
+            //dd($subscription);
+            
+            // Salvataggio dei dati nel DB dell'utente
+            $r_p = json_decode($consumer->r_property, 1) ;
+            $r_p['activation_date'] = Carbon::now()->format('Y-m-d');
+            $r_p['renewal_date']    = Carbon::now()->addDays(30)->format('Y-m-d');
+            $r_p['stripe_id']       = $customer->id;
+            $r_p['subscription_id'] = $subscription->id;
+
+            $consumer->r_property = json_decode($consumer->r_property, 1);
+            $consumer->update();
+            $step = [
+                'error'=> 'none',
+                'step'=> 5,
+                'm'=> 'Complimenti hai completato con successo la registrazione'
+            ];
+            return $step;
+        } catch (\Exception $e) {
+            $step = [
+                'error'=> $e->getMessage(),
+                'step'=> 5,
+                'm'=> 'Complimenti hai completato con successo la registrazione'
+            ];
+            return $step;
+        }
+        // impostare pacchetto e tipo fatturazione (mensile / annuale)
+
+
+        
     }
 
     protected function parseCodiceFiscale($cf) {

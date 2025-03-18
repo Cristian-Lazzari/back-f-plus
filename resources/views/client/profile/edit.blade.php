@@ -22,11 +22,11 @@
                     <div class="split">
                         <div class="input_form">
                             <label for="name" :value="__('Name')" > Nome </label>
-                            <input id="name" name="name" type="text" value="{{old('name', $user->name)}}" required autofocus autocomplete="name" />
+                            <input id="name" name="name" type="text" value="{{old('name', $user->name)}}" required  autocomplete="name" />
                         </div>
                         <div class="input_form">
                             <label for="surname" :value="__('Name')" > Cognome </label>
-                            <input id="surname" name="surname" type="text" value="{{old('surname', $user->surname)}}" required autofocus autocomplete="surname" />
+                            <input id="surname" name="surname" type="text" value="{{old('surname', $user->surname)}}" required  autocomplete="surname" />
                         </div>
                         @error('name') <p class="error w-100">{{ $message }}</p> @enderror
                         @error('surname') <p class="error w-100">{{ $message }}</p> @enderror
@@ -35,7 +35,7 @@
                     <div class="full">
 
                             <label for="email" :value="__('Name')" > Email </label>
-                            <input id="email" name="email" type="text" value="{{old('email', $user->email)}}" required autofocus autocomplete="email" />
+                            <input id="email" name="email" type="text" value="{{old('email', $user->email)}}" required  autocomplete="email" />
                             @error('email') <p class="error w-100">{{ $message }}</p> @enderror
 
 
@@ -77,18 +77,18 @@
 
                         <div class="input_form">
                             <label for="current_password"  :value="__('Current Password')"> Password attuale </label>
-                            <input id="current_password" name="current_password" type="text" required autofocus autocomplete="current_password" />
+                            <input id="current_password" name="current_password" type="text" required  autocomplete="current_password" />
                         </div>
                         @error('current_password') <p class="error w-100">{{ $message }}</p> @enderror
 
                         <div class="input_form">
                             <label for="password" :value="__('New Password')"> Nuova password </label>
-                            <input id="password" name="password" type="text" required autofocus autocomplete="password" />
+                            <input id="password" name="password" type="text" required  autocomplete="password" />
                         </div>
                         @error('password') <p class="error w-100">{{ $message }}</p> @enderror
                         <div class="input_form">
                             <label for="password"  :value="__('Confirm Password')"> Ripeti nuova password </label>
-                            <input id="password" name="password" type="text" required autofocus autocomplete="password" />
+                            <input id="password" name="password" type="text" required  autocomplete="password" />
                         </div>
                         @error('password_confirmation') <p class="error w-100">{{ $message }}</p> @enderror
 
