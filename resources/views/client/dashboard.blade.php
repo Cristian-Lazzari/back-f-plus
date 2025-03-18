@@ -26,19 +26,19 @@ $type_rs = [
 @endphp
 @if (session('info'))
     @php
-        $step = session('info')
+        $m = session('info')
     @endphp
     <div class="alert notify_success alert-dismissible fade show" role="alert">
-        {{$step}}
+        {{$m}}
         <button type="button" class="btn-close close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
 @if (session('error'))
     @php
-        $step = session('error')
+        $m = session('error')
     @endphp
     <div class="alert notify_success alert-dismissible fade show error" role="alert">
-        {{$step}}
+        {{$m}}
         <button type="button" class="btn-close close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
@@ -81,13 +81,14 @@ $type_rs = [
             @foreach ($consumer as $c)
             @php 
                 if (isset($c->r_property)) {
-                    $r_type = json_decode($c->r_property, 1)['r_type'] ;
+                    $r_property = json_decode($c->r_property, 1);
+                    $r_type = $r_property['r_type'] ;
+                    $day_service = $r_property['day_service'];
                 }else{
+                    $r_property =[
+                        'renewal_date' =>null
+                ];
                     $r_type = '';
-                }
-                if (isset($c->r_property)) {
-                    $day_service = json_decode($c->r_property, 1)['day_service'] ;
-                }else{
                     $day_service = null;
                 }
                 if (isset($c->domain)) {
@@ -105,6 +106,7 @@ $type_rs = [
                 <div class="top">
                     <h2>{{$c->activity_name}}</h2>
                 </div>
+                <p class="opacity-50 h3s">Dati del Proprietario</p>
                 <form class="form-reg form-home" action="{{ route('client.complete_registration') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="step" value="1">
@@ -236,6 +238,7 @@ $type_rs = [
                     </div>
                     <button type="submit" class="my_btn_1 d-none">Modifica</button>
                 </form>
+                <p class="opacity-50 h3s">Dati dell'azienda</p>
                 <form class="form-reg form-home" action="{{ route('client.complete_registration') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="step" value="2">
@@ -361,6 +364,25 @@ $type_rs = [
                     <button type="submit" class="my_btn_1 d-none">Conferma</button>
     
                 </form>
+                @if ($r_property['renewal_date'] && $c->status !== 0)    
+                <p class="opacity-50 h3s">Gestisci il tuo abbonamento</p>
+                    <div class="form-reg">
+                        <p>Data di rinnovo: {{$r_property['renewal_date']}}</p>
+                        <form class="w-100" action="{{ route('client.delete_sub') }}" method="POST">
+                            <input type="hidden" name="id" value="{{$c->id}}">
+                            @csrf
+                            <button type="submit" class="ml-auto btn btn-danger">Annulla Abbonamento</button>
+                        </form>
+                        @php
+                            $data_r = \Carbon\Carbon::parse($r_property['renewal_date']);
+                            $today = \Carbon\Carbon::today();
+                           // dump(!$data_r->lt($today)); //less then
+                        @endphp
+                        @if (!$data_r->lt($today))
+                            <p>*Puoi annullare gratuitamente il tuo abbonamento entro il {{$r_property['renewal_date']}}</p>
+                        @endif
+                    </div>
+                @endif
             </div>
             @endforeach
         </div>
@@ -383,16 +405,13 @@ $type_rs = [
                                 <a class="pack" href="https://future-plus.it/#pacchetti">Pacchetto: {{$pack[$c->status]}}</a>
                                 <a class="pack" href="{{'https://db.'.$domain }}">Accedi alla Dashboard di {{$c->activity_name}}</a>
 
-                            @elseif($c->menu)
+                            @elseif($c->status)
                                 <p class="info">Servizio in fase in anlisi</p>
                             @else
                                 <p class="warning">Completa la configurazione</p>
                             @endif
                         </div>
-                        <form action="{{ route('client.delete_sub', $c->id) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-danger">Annulla Abbonamento</button>
-                        </form>
+                       
                     </div>
                 @else
                     <div class="ticket">
@@ -1199,6 +1218,7 @@ $type_rs = [
                 filename.innerHTML += ` ${files[i].name} `;
             }
         }
+
         const step = @json($step);
         
         if(step.step == 4){
@@ -1229,15 +1249,17 @@ $type_rs = [
             cardExpiry.mount("#card-expiry");
             cardCvc.mount("#card-cvc");
             const cardErrors = document.getElementById("card-errors")
-
+            const btn_sumb_stripe = document.getElementById("payment-form")
             
-            document.getElementById("payment-form").addEventListener("submit", async function(event) {
+            btn_sumb_stripe.addEventListener("submit", async function(event) {
                 event.preventDefault();
+                btn_sumb_stripe.classList.add('d-none')
                 
                 let terms = document.querySelector("#terms")
                 if(!terms.checked){
                     cardErrors.innerText = 'Prima di proseguire è necessario leggere ed accettare Termini e Condizioni';
                     cardErrors.classList.add('error')
+                    btn_sumb_stripe.classList.remove('d-none')
                     return
                 }
                 let {error, paymentMethod} = await stripe.createPaymentMethod({
@@ -1249,6 +1271,7 @@ $type_rs = [
                 if (error) {
                     cardErrors.innerText = error.message;
                     cardErrors.classList.add('error')
+                    btn_sumb_stripe.classList.remove('d-none')
                 } else {
                     cardErrors.innerText = "";
                     cardErrors.classList.remove('error')

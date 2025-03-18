@@ -43,18 +43,24 @@ class DashboardController extends Controller
 
         try {
             Stripe::setApiKey(config('services.stripe.secret'));
-
             $consumer = Consumer::where('id', $request['id'])->firstOrFail();
-            $c = json_decode($consumer->r_property);
-
+            
             if (!$c['stripe_id']) {
                 return redirect()->back()->with('error', 'Utente non associato a Stripe.');
             }
             $subscription = Subscription::retrieve($c['subscription_id']);
-
+            
             if ($subscription->status !== 'canceled') {
                 $subscription->cancel();
-                return redirect()->back()->with('success', 'Abbonamento annullato con successo.');
+                $r_p = json_decode($consumer->r_property, 1) ;
+                $r_p['activation_date'] = '';
+                $r_p['renewal_date']    = '';
+                
+                $consumer->status = 0;
+                $consumer->r_property = json_encode($r_p);
+                $consumer->update();
+
+                return redirect()->back()->with('info', 'Abbonamento annullato con successo.');
             }
             return redirect()->back()->with('info', 'L\'abbonamento è già stato annullato.');
         } catch (\Exception $e) {
@@ -231,7 +237,7 @@ class DashboardController extends Controller
             $r_p['stripe_id']       = $customer->id;
             $r_p['subscription_id'] = $subscription->id;
 
-            $consumer->r_property = json_decode($consumer->r_property, 1);
+            $consumer->r_property = json_encode($r_p);
             $consumer->update();
             $step = [
                 'error'=> 'none',
