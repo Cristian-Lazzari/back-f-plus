@@ -110,6 +110,7 @@ $type_rs = [
                 <form class="form-reg form-home" action="{{ route('client.complete_registration') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="step" value="1">
+                    <input type="hidden" name="edit" value="1">
                     <div class="split">
                         <div class="input_form">
                             <label for="type_agency" class="">Tipo di Azienda</label>
@@ -241,6 +242,7 @@ $type_rs = [
                 <p class="opacity-50 h3s">Dati dell'azienda</p>
                 <form class="form-reg form-home" action="{{ route('client.complete_registration') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="$step" value="1">
                     <input type="hidden" name="step" value="2">
                     <div class="split">
                         <div class="input_form">
@@ -371,7 +373,7 @@ $type_rs = [
                         <form class="w-100" action="{{ route('client.delete_sub') }}" method="POST">
                             <input type="hidden" name="id" value="{{$c->id}}">
                             @csrf
-                            <button type="submit" class="ml-auto btn btn-danger">Annulla Abbonamento</button>
+                            <button type="submit" class="ml-auto btn btn-danger">{{$c->status ? 'Annulla' : "Attiva"}} Abbonamento</button>
                         </form>
                         @php
                             $data_r = \Carbon\Carbon::parse($r_property['renewal_date']);
@@ -422,10 +424,6 @@ $type_rs = [
                         <div class="bottom">
                             <p class="warning">Completa la configurazione</p>
                         </div>
-                        <form action="{{ route('client.delete_sub', $c->id) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-danger">Annulla Abbonamento</button>
-                        </form>
                     </div>
                 @endif
 
@@ -478,6 +476,7 @@ $type_rs = [
             <div class="body">
                 <form class="form-reg" action="{{ route('client.complete_registration') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="edit" value="0">
                     <input type="hidden" name="step" value="1">
                     <div class="split">
                         <div class="input_form">
@@ -598,8 +597,8 @@ $type_rs = [
                 </form>
             </div>
             <div class="foot">
-                <div class="close_modal" id="close_modal1">Continua piu tardi la tua configuarazione</div>
-                <div class="call">Prenota una Call con i nostri esperti</div>
+                <div class="close_modal" id="close_modal1">Clicca <strong>QUI</strong> per continuare più tardi la tua configuarazione, puoi prenotare una Call con i nostri esperti per avere ulteriori chiarimenti.</div>
+
             </div>
         </div>
 
@@ -623,6 +622,7 @@ $type_rs = [
             <div class="body">
                 <form class="form-reg" action="{{ route('client.complete_registration') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="edit" value="0">
                     <input type="hidden" name="step" value="2">
                     <div class="split">
                         <div class="input_form">
@@ -740,8 +740,8 @@ $type_rs = [
 
                 </form>
                 <div class="foot">
-                    <div class="close_modal" id="close_modal2">Continua piu tardi la tua configuarazione</div>
-                    <div class="call">Prenota una Call con i nostri esperti</div>
+                    <div class="close_modal" id="close_modal2">Clicca <strong>QUI</strong> per continuare più tardi la tua configuarazione, puoi prenotare una Call con i nostri esperti per avere ulteriori chiarimenti.</div>
+
                 </div>
             </div>
         </div>
@@ -843,6 +843,7 @@ $type_rs = [
                     </div>
                     <form class="prices" action="{{ route('client.complete_registration') }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="edit" value="0">
                         <input type="hidden" name="step" value="3">
                         {{-- 1 annuale 2 mensile --}}
                         <input type="hidden" id="type_pay" name="type_pay" value="1"> 
@@ -890,8 +891,7 @@ $type_rs = [
                 </div>
             </div>
             <div class="foot">
-                <div class="close_modal" id="close_modal3">Continua piu tardi la tua configuarazione</div>
-                <div class="call">Prenota una Call con i nostri esperti</div>
+                <div class="close_modal" id="close_modal3">Clicca <strong>QUI</strong> per continuare più tardi la tua configuarazione, puoi prenotare una Call con i nostri esperti per avere ulteriori chiarimenti.</div>
             </div>
         </div>
     </div>
@@ -934,13 +934,9 @@ $type_rs = [
                     <div id="card-errors"></div>
                     <button class="my_btn_1" id="submit">Avvia la prova gratuita</button>
                 </form>
-                
-                
-                
             </div>
             <div class="foot">
-                <div class="close_modal" id="close_modal3">Continua piu tardi la tua configuarazione</div>
-                <div class="call">Prenota una Call con i nostri esperti</div>
+                <div class="close_modal" id="close_modal3">Clicca <strong>QUI</strong> per continuare più tardi la tua configuarazione, puoi prenotare una Call con i nostri esperti per avere ulteriori chiarimenti.</div>
             </div>
         </div>
     </div>
@@ -1288,7 +1284,8 @@ $type_rs = [
                         body: JSON.stringify({
                             payment_method: paymentMethodId,
                             _token: "{{ csrf_token() }}", // Aggiunto direttamente nei dati
-                            step: 4 // Aggiunto direttamente nei dati
+                            step: 4, // Aggiunto direttamente nei dati
+                            edit: 0 // Aggiunto direttamente nei dati
                         })
                     });
     

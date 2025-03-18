@@ -533,9 +533,10 @@ body{
                                 background-color: $c3_op;
                                 font-size: $fs_xsm;
                                 padding: .7rem;
+                                height: 35px;
                                 transition: all .2s ease-in;    
                             }
-                            input:focus{
+                            input:focus, select:focus{
                                 transition: all .2s ease-in;    
                                 border: none !important;
                                 //box-shadow: none;
@@ -612,17 +613,25 @@ body{
         }
         @media (max-width: $bp_md) {
           .center_hero{  
-            gap: 10svh !important;
-            padding:  3vh 0 !important;
+            gap: 4svh !important;
+            padding:  10vh 0 !important;
             height: 100%;
             flex-wrap: nowrap !important;
+            img{
+                padding:  10vh 0 !important;
+            }
             .right{
-                width: 80%!important;
+                padding:  10vh 0 !important;
+                width: 90%!important;
                 gap: 1.6rem !important;
             }
-            .split{
-                flex-direction: column;
+
+            .input_login{
+                input{
+                    width: 68% !important;
+                }
             }
+
           }
         }
 
@@ -699,7 +708,9 @@ body{
     padding: 1rem 10px;  
 }
 .page_nav{
-    padding: 10vh 1rem;
+    width: 100% !important;
+    padding: 10vh 1rem 3vh;
+    overflow: hidden;
     h1{
         margin: 2rem 0;
         width: 100%;

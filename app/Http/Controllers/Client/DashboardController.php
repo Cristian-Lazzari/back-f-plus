@@ -73,6 +73,9 @@ class DashboardController extends Controller
         $first = $consumer[0];
         $data = $request;
         $step = $data['step'];
+
+        $edit = $data['edit'];
+        
         // dump($step);
         // dd($data);
         if($step == 1){ $step = $this->step_1($data, $first);
@@ -90,7 +93,14 @@ class DashboardController extends Controller
                 ]);
             }
         } 
+        if($edit){
+            $step['m'] = 'I tuoi dati sono stai aggiornati correttamente';
+            $step['step'] = 6;
+
+        }
         return back()->with('success', $step);
+        
+        
     }
 
     protected function step_1($data, $consumer){
