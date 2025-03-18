@@ -45,14 +45,14 @@ class DashboardController extends Controller
             Stripe::setApiKey(config('services.stripe.secret'));
             $consumer = Consumer::where('id', $request['id'])->firstOrFail();
             
-            if (!$c['stripe_id']) {
+            $r_p = json_decode($consumer->r_property, 1) ;
+            if (!$r_p['stripe_id']) {
                 return redirect()->back()->with('error', 'Utente non associato a Stripe.');
             }
-            $subscription = Subscription::retrieve($c['subscription_id']);
+            $subscription = Subscription::retrieve($r_p['subscription_id']);
             
             if ($subscription->status !== 'canceled') {
                 $subscription->cancel();
-                $r_p = json_decode($consumer->r_property, 1) ;
                 $r_p['activation_date'] = '';
                 $r_p['renewal_date']    = '';
                 
