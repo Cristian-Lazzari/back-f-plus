@@ -9,7 +9,7 @@
                 <form method="post" action="{{ route('login') }}">
                     @csrf
             
-                    <div class="input_form">
+                    <div class="input_form input_login">
                         <label for="email" class="">Email</label>
                         <input
                             type="email"
@@ -19,13 +19,12 @@
                             name="email"
                             placeholder="Inserisci la tua email"
                             required
-                            autofocus
                             autocomplete="username"
                             value="{{ old('email') }}"
                         >
                     </div>
             
-                    <div class="input_form">
+                    <div class="input_form input_login">
                         <label for="password" class="">Password</label>
                         <input
                             type="password"

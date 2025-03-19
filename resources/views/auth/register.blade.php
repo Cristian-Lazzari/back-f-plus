@@ -3,7 +3,7 @@
 @section('contents')
 <div class="register-page">
     <div class="hero">
-        <div class="center_hero">
+        <div class="center_hero reg_c">
             <img src="{{ asset('public/logo.png') }}" alt="">
             <div class="right">
                 <form method="POST" class="registration " action="{{ route('register') }}">

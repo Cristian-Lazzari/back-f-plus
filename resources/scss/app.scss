@@ -106,9 +106,9 @@ $fs_xlg: clamp(28px, 3.8vw, 39px);
     text-decoration: none;
     font-weight:500;
     text-align: center;
-    padding: .5rem 1.2rem;
+    padding: .4rem 1.2rem;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: $fs_sm;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.367);
@@ -123,6 +123,11 @@ $fs_xlg: clamp(28px, 3.8vw, 39px);
         //box-shadow: -1px -1px 8px rgba(0, 0, 0, 0.277);
         color: $white;
         text-shadow: 0px 0px 4px rgba(220, 220, 220, 0);
+    }
+}
+@media (max-width: $bp_sm) {
+    .my_btn_1, .my_btn_2, .my_btn_3, .my_btn_4, .my_btn_5, .my_btn_6, .my_btn_7{
+        padding: .3rem 1rem !important;
     }
 }
 .my_btn_1, .my_bg_1{
@@ -487,6 +492,9 @@ body{
     
           position: relative;
           overflow-y: auto;
+          .reg_c{
+            height: 100%;
+          }
           .center_hero{
                 padding: 0 5vw;
                 width: 100%;
