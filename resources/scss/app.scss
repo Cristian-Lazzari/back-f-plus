@@ -486,7 +486,7 @@ body{
           justify-content: center;
     
           position: relative;
-          overflow: scroll;
+          overflow-y: auto;
           .center_hero{
                 padding: 0 5vw;
                 width: 100%;
@@ -497,10 +497,8 @@ body{
                 gap: 1.5rem;
                 img{
                     width: clamp(180px, 27vw, 500px);
-                    //height: auto;
                     object-fit: contain;
                     filter: drop-shadow(0 0 10px $c3_op);
-
                 }
                 .right{
                     text-align: center;
