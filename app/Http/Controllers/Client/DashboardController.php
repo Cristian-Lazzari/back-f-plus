@@ -10,8 +10,10 @@ use App\Models\Consumer;
 use Stripe\Subscription;
 use Stripe\PaymentMethod;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class DashboardController extends Controller
 {
@@ -192,7 +194,6 @@ class DashboardController extends Controller
     }
 
     protected function step_3($data, $consumer){
-
         // impostare pacchetto e tipo fatturazione (mensile / annuale)
         // $status = [     'niente ancora',     'Essntials | Y',      'Work on   | Y',     'Boost up  | Y',     'Essntials | M',     'Work on   | M',     'Boost up  | M',
         // ];
@@ -209,12 +210,11 @@ class DashboardController extends Controller
         ];
         return $step;
     }
+
     protected function step_4($data, $consumer){
         try {
             Stripe::setApiKey(config('c.STRIPE_SECRET'));
-    
-            // Creazione del cliente su Stripe
-            $customer = Customer::create([
+            $customer = Customer::create([ // Creazione del cliente su Stripe
                 'email' => auth()->user()->email,
                 'payment_method' => $data->payment_method, // Associa metodo di pagamento
                 'invoice_settings' => ['default_payment_method' => $data->payment_method] // Assicura che venga usato per i pagamenti automatici
@@ -246,15 +246,18 @@ class DashboardController extends Controller
             $r_p['renewal_date']    = Carbon::now()->addDays(30)->format('Y-m-d');
             $r_p['stripe_id']       = $customer->id;
             $r_p['subscription_id'] = $subscription->id;
-
             $consumer->r_property = json_encode($r_p);
             $consumer->update();
+
+            $this->send_contrct($consumer);
+            
             $step = [
                 'error'=> 'none',
                 'step'=> 5,
                 'm'=> 'Complimenti hai completato con successo la registrazione'
             ];
             return $step;
+
         } catch (\Exception $e) {
             $step = [
                 'error'=> $e->getMessage(),
@@ -269,7 +272,7 @@ class DashboardController extends Controller
         
     }
 
-    protected function parseCodiceFiscale($cf) {
+    protected function parseCodiceFiscale($cf){
         if (strlen($cf) !== 16) {
             return null; // Codice fiscale non valido
         }
@@ -301,5 +304,19 @@ class DashboardController extends Controller
         ];
 
         return $info;
+    }
+
+    protected function send_contrct($cliente){
+        // Genera il PDF
+        $pdf = Pdf::loadView('pdf.contratto', compact('cliente'));
+        
+        // Salva il PDF temporaneamente
+        $filePath = storage_path('app/contratti/contratto_' . $cliente->id . '.pdf');
+        $pdf->save($filePath);
+
+        // Invia l'email con il PDF allegato
+        Mail::to($cliente->email)->send(new ContractEmail($filePath, $cliente));
+
+        return response()->json(['message' => 'Contratto inviato']);
     }
 }
