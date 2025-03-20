@@ -2,7 +2,7 @@
 
 @section('contents')
 @php
-    $pack = ['', 'Essentials', 'Work on', 'Boost up', 'Essentials * 30', 'Work on * 30', 'Boost up * 30' ];
+    $pack = ['NON attivo', 'Essentials * 360', 'Work on * 360', 'Boost up * 360', 'Essentials * 30', 'Work on * 30', 'Boost up * 30' ];
     $role = ['Propr. o Socio', 'Dipendente', 'SMM' ];
 @endphp
 <div class="page_nav">

@@ -9,6 +9,7 @@ use Stripe\Customer;
 use App\Models\Consumer;
 use Stripe\Subscription;
 use Stripe\PaymentMethod;
+use App\Mail\ContractEmail;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
@@ -249,7 +250,7 @@ class DashboardController extends Controller
             $consumer->r_property = json_encode($r_p);
             $consumer->update();
 
-            $this->send_contrct($consumer);
+            $this->send_contract($consumer);
             
             $step = [
                 'error'=> 'none',
@@ -306,17 +307,31 @@ class DashboardController extends Controller
         return $info;
     }
 
-    protected function send_contrct($cliente){
+    protected function send_contract($consumer)
+    {
+        // Percorso della cartella dove salvare il PDF
+        $directory = storage_path('app/contratti');
+    
+        // Controlla se la cartella esiste, altrimenti la crea
+        if (!is_dir($directory)) {
+            mkdir($directory, 0775, true);
+        }
+    
+        // Percorso completo del file PDF
+        $filePath = $directory . '/contratto_' . $consumer->id . '.pdf';
+    
         // Genera il PDF
-        $pdf = Pdf::loadView('pdf.contratto', compact('cliente'));
+        $pdf = Pdf::loadView('pdf.contract', compact('consumer'));
         
-        // Salva il PDF temporaneamente
-        $filePath = storage_path('app/contratti/contratto_' . $cliente->id . '.pdf');
+        // Salva il PDF nel percorso specificato
         $pdf->save($filePath);
-
+    
         // Invia l'email con il PDF allegato
-        Mail::to($cliente->email)->send(new ContractEmail($filePath, $cliente));
+        Mail::to(auth()->user()->email)->send(new ContractEmail($filePath, $consumer));
 
-        return response()->json(['message' => 'Contratto inviato']);
+        
+    
+        return response()->json(['message' => 'Contratto inviato con successo']);
     }
+    
 }

@@ -25,7 +25,7 @@ class ContractEmail extends Mailable
     public function build()
     {
         return $this->subject('Contratto di Servizio Future Plus')
-            ->view('emails.contratto')
+            ->view('emails.contract')
             ->attach($this->filePath, [
                 'as' => 'Contratto_FuturePlus.pdf',
                 'mime' => 'application/pdf',
