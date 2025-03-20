@@ -233,11 +233,11 @@ class DashboardController extends Controller
             // Creazione dell'abbonamento con pagamento automatico
             $subscription = Subscription::create([
                 'customer' => $customer->id,
-                'items' => [['price' => 'price_1OlsrICusoKCSgsdH4AUgm4Q']], // Usa il tuo price_id reale
-                //'items' => [['price' => $price_list[$consumer->status]]], // Usa il tuo price_id reale
+                //'items' => [['price' => 'price_1OlsrICusoKCSgsdH4AUgm4Q']], // Usa il tuo price_id reale
+                'items' => [['price' => $price_list[$consumer->status]]], // Usa il tuo price_id reale
                 'off_session' => true, // Nessuna conferma manuale
                 'automatic_tax' => ['enabled' => false],
-                //'trial_period_days' => 30, // Imposta il numero di giorni di prova gratuita
+                'trial_period_days' => 30, // Imposta il numero di giorni di prova gratuita
             ]);
             //dd($subscription);
             
