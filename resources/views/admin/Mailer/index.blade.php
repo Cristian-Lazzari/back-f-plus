@@ -28,44 +28,11 @@
 @endif
 {{-- compact('models', 'last_mail_list', 'extra_mail_list', 'users', 'order_users', 'reservation_users'));    --}}
 
-<div class="email-m">
+<div class="email-m pt-5">
     
-
-    <h1>Email Marketing</h1>
+    <h1 class="mt-5 ">Email Marketing</h1>
     <section class="lists">
         <h2>Le tue liste di contatti</h2>
-        <div class="list_wrap">
-            <h3>Contatti dalle prenotazioni</h3>
-            <div class="list">
-                @foreach ($reservation_users as $i)
-                    <div class="contact">
-                        <span class="name">{{$i->name}}</span>
-                        <span class="mail">{{$i->email}}</span>
-                    </div>
-                @endforeach
-            </div>
-            <div class="params act">
-                <p>
-                    <span>{{count($reservation_users)}} contatti</span>
-                </p>
-            </div>
-        </div>
-        <div class="list_wrap">
-            <h3>Contatti dagl'ordini</h3>
-            <div class="list">
-                @foreach ($order_users as $i)
-                    <div class="contact">
-                        <span class="name">{{$i->name}}</span>
-                        <span class="mail">{{$i->email}}</span>
-                    </div>
-                @endforeach
-            </div>
-            <div class="params act">
-                <p>
-                    <span>{{count($order_users)}} contatti</span>
-                </p>
-            </div>
-        </div>
         <div class="list_wrap">
             <h3>Contatti extra</h3>
             <div class="list">
@@ -192,7 +159,7 @@
 
                     <div class="list" id="emailList">
                         @foreach ($extra_mail_list as $i)
-                            <div class="wrapper">
+                            <div class="wrappercontact">
                                 <input name="recipients[]" id="{{$i->email}}old" class="btn-check" type="text" value="{{json_encode($i)}}">
                                 <label class="contact" for="{{$i->email}}old">
                                     <span class="name">{{$i->name}}</span>
@@ -227,7 +194,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', async function() {
     const emailList1 = document.getElementById('emailList');
-    const mail_old = Array.from(emailList1.querySelectorAll('.wrapper'));
+    const mail_old = Array.from(emailList1.querySelectorAll('.wrappercontact'));
 
     mail_old.forEach(e => {
         const removeButton = document.createElement('button');
@@ -245,7 +212,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         const existingEmails = Array.from(emailList.querySelectorAll('input[name="recipients[]"]')).map(input => JSON.parse(input.value).email);
 
-        const mail_old = Array.from(emailList.querySelectorAll('wrapper'));
+        const mail_old = Array.from(emailList.querySelectorAll('wrappercontact'));
 
         mail_old.forEach(e => {
             const removeButton = document.createElement('button');
@@ -268,7 +235,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                         const uniqueId = `email-${Math.random().toString(36).substr(2, 9)}`;
 
                         const wrapper = document.createElement('div');
-                        wrapper.className = 'wrapper';
+                        wrapper.className = 'wrappercontact';
 
                         const input = document.createElement('input');
                         input.type = 'checkbox';

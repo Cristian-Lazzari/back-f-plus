@@ -35,11 +35,6 @@ class mailerController extends Controller
         $last_mail_list = [];
         $extra_mail_list = [];
 
-        $order_users =       Order      ::select('email', 'name')->where('news_letter', true)->distinct()->get();
-        $reservation_users = Reservation::select('email', 'name')->where('news_letter', true)->distinct()->get();
-        $order_users =       $order_users->unique('email');
-        $reservation_users = $reservation_users->unique('email');
-
         $models = Model::all();
 
         // Conta il numero totale di utenti
@@ -49,7 +44,7 @@ class mailerController extends Controller
             $last_mail_list = $prop->last_mail_list;
             $extra_mail_list = $prop->extra_mail_list;
             //dd($prop->last_mail_list);
-            return view('admin.Mailer.index', compact('models', 'last_mail_list', 'extra_mail_list', 'order_users', 'reservation_users'));   
+            return view('admin.Mailer.index', compact('models', 'last_mail_list', 'extra_mail_list'));   
         }else{
             $new_set = [
                 'name' => 'email_marketing',  
@@ -61,21 +56,15 @@ class mailerController extends Controller
             ];
             $new_set['property'] = json_encode($new_set['property']);
             Setting::create($new_set);
-            return view('admin.Mailer.index', compact('models', 'last_mail_list', 'extra_mail_list', 'order_users', 'reservation_users'));   
+            return view('admin.Mailer.index', compact('models', 'last_mail_list', 'extra_mail_list'));   
         }
     }
     public function create_model(){
         return view('admin.Mailer.createModel');
     }
     public function send_mail(){
-        $models= Model::all();
-
-        $order_users =       Order      ::select('email', 'name')->where('news_letter', true)->distinct()->get();
-        $reservation_users = Reservation::select('email', 'name')->where('news_letter', true)->distinct()->get();
-
         $models = Model::all();
 
-        
         // Conta il numero totale di utenti
         $old_mail = Setting::where('name', 'email_marketing')->first();
         if($old_mail !== null){
@@ -84,8 +73,6 @@ class mailerController extends Controller
             $extra_mail_list = $prop->extra_mail_list;
 
             $n_c = [
-                count($reservation_users),
-                count($order_users),
                 count($extra_mail_list),
                 count($last_mail_list),
             ];
@@ -166,9 +153,6 @@ class mailerController extends Controller
 
         $last_mail_list = [];
         $extra_mail_list = [];
-
-        $order_users =       Order      ::select('email', 'name')->where('news_letter', true)->distinct()->get();
-        $reservation_users = Reservation::select('email', 'name')->where('news_letter', true)->distinct()->get();
 
         // Conta il numero totale di utenti
         $old_mail = Setting::where('name', 'email_marketing')->first();

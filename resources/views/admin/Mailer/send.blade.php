@@ -29,28 +29,16 @@
             </label>
 
             <p class="mail-list-check">
-                <input type="checkbox" name="recipients[]" class="btn-check" id="1" value="1">
-                <label class="btn btn-outline-light" for="1">
-                    <span>Contatti dalle Prenotaioni</span>
-                    <span>{{$n_c[0]}}</span>
-                </label>
-
-                <input type="checkbox" name="recipients[]" class="btn-check" id="2" value="2">
-                <label class="btn btn-outline-light" for="2">
-                    <span>Contatti dagl'Ordini</span>
-                    <span>{{$n_c[1]}}</span>
-                </label>
-
                 <input type="checkbox" name="recipients[]" class="btn-check" id="3" value="3">
                 <label class="btn btn-outline-light" for="3">
                     <span>Contatti aggiunti manualmente</span>
-                    <span>{{$n_c[2]}}</span>
+                    <span>{{$n_c[0]}}</span>
                 </label>
 
                 <input type="checkbox" name="recipients[]" class="btn-check" id="4" value="4">
                 <label class="btn btn-outline-light" for="4">
                     <span>Ultima lista Contatti</span>
-                    <span>{{$n_c[3]}}</span>
+                    <span>{{$n_c[1]}}</span>
                 </label>
             </p>
             
