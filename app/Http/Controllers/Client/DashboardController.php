@@ -19,28 +19,37 @@ use Illuminate\Support\Facades\Mail;
 class DashboardController extends Controller
 {
     public function home(Request $request) {
-        $consumer = Consumer::where('user_id', Auth::user()->id)->get();
+        $consumers = Consumer::where('user_id', Auth::user()->id)->get();
+        $new_c = Consumer::where('user_id', Auth::user()->id)->where('r_property', 'like', '%' . '"activation_date":""' . '%')->first();
         $final = $request->query('final', 1);
         if($final == 5){
             $step = [ 'step' => 5, 'm' => 'Complimenti hai completato la registrazione a future+'];
-            return view('client.dashboard', compact('step', 'consumer'));
+            return view('client.dashboard', compact('step', 'consumers'));
         }
+
+        //dd($new_c);
+        if($new_c){
+            $r_p_f = json_decode($new_c->r_property, 1);
+            if($new_c->vat == null || $new_c->status == 0 || $r_p_f['stripe_id'] == ''){
                 
-        $first = $consumer[0];
-        $r_p_f = json_decode($first->r_property, 1);
-        if($first->vat == null){ $s = 1;
-        } elseif($first->domain == null){ $s = 2;    
-        } elseif($first->status == 0){ $s = 3; 
-        } elseif($r_p_f['stripe_id'] == ''){ $s = 3;//dd($r_p_f);
-        } else { $s = 6; //complete
+                if($new_c->vat == null)             { $s = 1; } 
+                elseif($new_c->status == 0)         { $s = 2; } 
+                elseif($r_p_f['stripe_id'] == '')   { $s = 3; } 
+                else                                { $s = 6; }
+                
+                $step = [
+                    'step' => $s,
+                    'm' => null
+                ];
+                $consumer = $new_c;
+                return view('client.dashboard', compact('step', 'consumers', 'consumer'));
+            }
         }
         $step = [
-            'step' => $s,
+            'step' => 7,
             'm' => null
         ];
-       
-        return view('client.dashboard', compact('step', 'consumer'));
-    
+        return view('client.dashboard', compact('step','consumers'));
     }
     public function delete_sub(Request $request) {
 
@@ -71,20 +80,44 @@ class DashboardController extends Controller
         }
     }
 
+    public function create_new(Request $request) {
+        $user_id = Auth::user()->id;
+        $consumers = Consumer::where('user_id', $user_id)->get();
+        
+        $r_property = [
+            'day_service' => [],
+            'r_type' => [],
+            'activation_date' => '',
+            'renewal_date' => '',
+            'stripe_id' => '',
+            'subscription_id' => ''
+        ];
+
+        $consumer = Consumer::create([
+            'user_id' => $user_id,
+            'activity_name' => $request->activity_name,
+            'r_property' => json_encode($r_property)
+        ]);
+        $step = [
+            'step' => 1,
+            'm' => null
+        ];
+        return redirect()->back()->with('new', $consumers, $consumer, $step);
+        //return view('client.dashboard', compact());
+
+    }
     public function complete_registration(Request $request) {
-        $consumer = Consumer::where('user_id', Auth::user()->id)->get();
-        $first = $consumer[0];
+        $consumer = Consumer::where('user_id', Auth::user()->id)->where('id', $request->id)->first();
+   
         $data = $request;
         $step = $data['step'];
-
         $edit = $data['edit'];
         
         // dump($step);
         // dd($data);
-        if($step == 1){ $step = $this->step_1($data, $first);
-        } elseif($step == 2){ $step = $this->step_2($data, $first); 
-        } elseif($step == 3){ $step = $this->step_3($data, $first);
-        } elseif($step == 4){ $step = $this->step_4($data, $first);
+        if($step == 1){ $step = $this->step_1($data, $consumer);
+        } elseif($step == 2){ $step = $this->step_2($data, $consumer); 
+        } elseif($step == 3){ $step = $this->step_3($data, $consumer);
             if($step['error'] == 'none'){
                 return response()->json([
                     'success' => true, 
@@ -99,7 +132,6 @@ class DashboardController extends Controller
         if($edit){
             $step['m'] = 'I tuoi dati sono stai aggiornati correttamente';
             $step['step'] = 6;
-
         }
         return back()->with('success', $step);
         
@@ -116,6 +148,10 @@ class DashboardController extends Controller
             'owner_phone' => ['required', 'string', 'max:255'],
             'owner_surname' => ['required', 'string', 'max:255'],
             'owner_cf' => ['required', 'string', 'max:20'],
+
+            'menu' => ['nullable', 'array'], // Deve essere un array di file
+            'menu.*' => ['file', 'mimes:jpeg,jpg,docx,xlsx', 'max:5120'], // Ogni file deve essere un'immagine max 2MB
+            'domain' => ['required'],
         ]);
         
         $consumer->owner_name = $data->owner_name;
@@ -133,28 +169,6 @@ class DashboardController extends Controller
         $consumer->owner_sex = $info['genere'] ?? null;
         $consumer->owner_cm = '??'; //da implementare
 
-        $consumer->update();
-        $step = [
-            'step'=> 2,
-            'm'=> 'Complimenti hai completato con successo la seconda parte della registrazione'
-        ];
-        return $step;
-
-        
-    } 
-    
-    protected function step_2($data, $consumer){
-        //dd($data['menu']);
-        $data->validate([
-            'menu' => ['nullable', 'array'], // Deve essere un array di file
-            'menu.*' => ['file', 'mimes:jpeg,jpg,docx,xlsx', 'max:5120'], // Ogni file deve essere un'immagine max 2MB
-            'r_type' => ['required'],
-            'services_type' => ['required'],
-            'day_service' => ['required','array'],
-            'day_service.*' => ['required','string'],
-            'domain' => ['required','url',],
-        ]);
-
         $paths = [];
 
         if ($data->hasFile('menu')) {
@@ -168,17 +182,8 @@ class DashboardController extends Controller
         }
         
         $day_service = [];
-        $r_property = [
-            'day_service' => $data['day_service'],
-            'r_type' => $data['r_type'],
-            'activation_date' => '',
-            'renewal_date' => '',
-            'stripe_id' => '',
-            'subscription_id' => ''
-        ];
         
         $consumer->menu = json_encode(array_values($paths), JSON_UNESCAPED_SLASHES);
-        $consumer->r_property = json_encode($r_property);
         $consumer->services_type = $data['services_type'];
         $domain = [
             'domain'=>$data['domain'],
@@ -186,33 +191,27 @@ class DashboardController extends Controller
         ];
         $consumer->domain = json_encode($domain);
         $consumer->update();
-
+        //dd($consumer);
         $step = [
-            'step'=> 3,
-            'm'=> 'Complimenti hai completato con successo la terza parte della registrazione'
+            'step'=> 2,
+            'm'=> 'Scegli il pacchetto che più si adatta alle esigenze, indipendentemente dalla scelta che prenderai ora nei 30 giorni di prova gratuita potrai usufruire di tutte le funzioni del piano Boost Up'
         ];
         return $step; 
     }
 
-    protected function step_3($data, $consumer){
+    protected function step_2($data, $consumer){
         // impostare pacchetto e tipo fatturazione (mensile / annuale)
-        // $status = [     'niente ancora',     'Essntials | Y',      'Work on   | Y',     'Boost up  | Y',     'Essntials | M',     'Work on   | M',     'Boost up  | M',
-        // ];
+        // $status = [ 'niente ancora', 'Essntials | Y', 'Work on | Y', 'Boost up | Y' 'Essntials | M', 'Work on | M', 'Boost up | M'];
         $ty = $data['type_pay'];
-        if($ty == 1){
-            $consumer->status = $data['pack'];
-        }else{
-            $consumer->status = $data['pack'] + 3;
-        }
+        $consumer->status = $data['pack'] + ($ty == 1 ? 0 : 3);
         $consumer->update();
         $step = [
-            'step'=> 4,
-            'm'=> ''
+            'step'=> 3,
         ];
         return $step;
     }
 
-    protected function step_4($data, $consumer){
+    protected function step_3($data, $consumer){
         try {
             Stripe::setApiKey(config('c.STRIPE_SECRET'));
             $customer = Customer::create([ // Creazione del cliente su Stripe
@@ -233,8 +232,8 @@ class DashboardController extends Controller
             // Creazione dell'abbonamento con pagamento automatico
             $subscription = Subscription::create([
                 'customer' => $customer->id,
-                //'items' => [['price' => 'price_1OlsrICusoKCSgsdH4AUgm4Q']], // Usa il tuo price_id reale
-                'items' => [['price' => $price_list[$consumer->status]]], // Usa il tuo price_id reale
+                'items' => [['price' => 'price_1OlsrICusoKCSgsdH4AUgm4Q']], // id di test
+                //'items' => [['price' => $price_list[$consumer->status]]], // id corretti
                 'off_session' => true, // Nessuna conferma manuale
                 'automatic_tax' => ['enabled' => false],
                 'trial_period_days' => 30, // Imposta il numero di giorni di prova gratuita

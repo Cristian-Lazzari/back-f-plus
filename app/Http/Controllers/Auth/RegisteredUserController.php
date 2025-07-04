@@ -50,9 +50,18 @@ class RegisteredUserController extends Controller
             'surname' => $request->surname,
             'role_agency' => $request->role_agency,
         ]);
+        $r_property = [
+            'day_service' => [],
+            'r_type' => [],
+            'activation_date' => '',
+            'renewal_date' => '',
+            'stripe_id' => '',
+            'subscription_id' => ''
+        ];
         $consumer = Consumer::create([
             'user_id' => $user->id,
             'activity_name' => $request->activity_name,
+            'r_property' => json_encode($r_property)
         ]);
 
         event(new Registered($user));

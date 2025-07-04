@@ -1,14 +1,14 @@
 {
   "resources/js/app.js": {
-    "file": "../public/build/assets/app.21977638.js",
+    "file": "../public/build/assets/app.9277807f.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "../public/build/assets/app.eee30483.css"
+      "../public/build/assets/app.c7646c9d.css"
     ]
   },
   "resources/scss/app.scss": {
-    "file": "../public/build/assets/app.eee30483.css",
+    "file": "../public/build/assets/app.c7646c9d.css",
     "src": "resources/scss/app.scss",
     "isEntry": true
   }
