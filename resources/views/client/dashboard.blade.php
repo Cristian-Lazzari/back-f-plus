@@ -6,6 +6,7 @@ $week = [
     'lunedì', 'martedì', 'mercoldì', 'giovedì', 'venerdì', 'sabato', 'domenica'
 ];
 $pack =  [
+    '',
     'Essntials | Y', 
     'Work on   | Y',
     'Boost up  | Y',
