@@ -67,6 +67,8 @@ class DashboardController extends Controller
                 $subscription->cancel();
                 $r_p['activation_date'] = '';
                 $r_p['renewal_date']    = '';
+                $r_p['stripe_id']       = '';
+                $r_p['subscription_id'] = '';
                 
                 $consumer->status = 0;
                 $consumer->r_property = json_encode($r_p);
