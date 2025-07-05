@@ -73,9 +73,7 @@
                             <div class="client">
                                 <p class="name">{{$c->name}} {{$c->surname}}</span></p>
                                 <p class="date ex-mb">{{$role[$c->role_agency]}}</p>
-                                <p class="pack">
-
-                                </p>
+                                <p class="pack"></p>
                                 <p class="link">
                                     <a class="dt" href="{{route('admin.consumers.show', $c->id)}}"> 
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">

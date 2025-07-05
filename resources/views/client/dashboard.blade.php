@@ -245,15 +245,13 @@ $pack =  [
                             
                             <p class="w-100">
                                 Hai caricato {{count($menu)}} file del tuo menu
-                            </p>
- 
-                                
-                                <label for="fileInput2" class="footer_file"> 
+                            </p>  
+                                <label for="fileInput{{$c->id}}" class="footer_file"> 
                                 <svg fill="#000000" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M15.331 6H8.5v20h15V14.154h-8.169z"></path><path d="M18.153 6h-.009v5.342H23.5v-.002z"></path></g></svg> 
                                 <p class="filename" >Nessun file selezionato</p> 
                                 <div></div>
                                 </label> 
-                                <input class="fileInput-input" id="fileInput2" type="file" multiple name="menu[]"> 
+                                <input class="fileInput-input" id="fileInput{{$c->id}}" type="file" multiple name="menu[]"> 
 
                         </div>
                         @error('menu') <p class="error w-100">{{ $message }}</p> @enderror
@@ -563,7 +561,7 @@ $pack =  [
                             <p class="filename" >Nessun file selezionato</p> 
                             <div></div>
                             </label> 
-                            <input class="fileInput-input" id="fileInput" type="file" multiple name="menu[]"> 
+                            <input class="fileInput-input fileInput" id="fileInput" type="file" multiple name="menu[]"> 
                         </div>
                     </div>
                     @error('menu') <p class="error w-100">{{ $message }}</p> @enderror
@@ -988,7 +986,7 @@ $pack =  [
             });
         }
  
-        const fileInput = document.querySelectorAll(".fileInput-input");
+        const fileInput = document.querySelectorAll(".fileInput");
         if (fileInput.length) {
             fileInput.forEach(fileInput => {
                 let filename = fileInput.closest(".container_file").querySelector(".filename");
@@ -1208,8 +1206,8 @@ $pack =  [
         margin: 0;
         }
 
-        #fileInput, #fileInput2  {
-        display: none;
+        #fileInput, .fileInput-input  {
+        display: none !important;
         }
 
 
